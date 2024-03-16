@@ -1,0 +1,11 @@
+# First Step Create Migration
+
+dotnet ef migrations add "Initial_migration" --context MainDbContext --project src/Infra --startup-project Presentation --output-dir Infra/src/main/Contexts/MainDb/Migrations --json
+
+# Second Step Update Database
+
+dotnet ef database update --context MainDbContext --project Infra --startup-project Presentation
+
+# Remove Migration
+
+dotnet ef migrations remove --context MainDbContext --project Infra --startup-project Presentation
