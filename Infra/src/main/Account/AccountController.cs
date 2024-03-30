@@ -1,4 +1,4 @@
-using Domain.Account;
+﻿using Domain.Account;
 using Domain.Account.UseCase;
 using Domain.Common;
 
@@ -41,10 +41,11 @@ public class AccountController : ControllerBase {
   public async Task<IActionResult> RetrieveAccount([FromQuery] Guid id, CancellationToken cancellationToken) {
     var retrieveAccount = await this.accountRetrieveUseCaseHandler.Handle(AccountRetrieve.Build(id), cancellationToken);
 
-    return this.Respond(AccountRetrieveResponse.From(retrieveAccount));
+    return this.Ok(AccountRetrieveResponse.From(retrieveAccount));
   }
 
   [HttpPost("all")]
+  [Authorize(Policy = "SuperAccountEntity")]
   public async Task<IActionResult> RetrieveAccounts([FromBody] DataRequest request, CancellationToken cancellationToken) {
     var accounts = await this.accountRetrieveUseCaseHandler.Handle(request, cancellationToken);
 

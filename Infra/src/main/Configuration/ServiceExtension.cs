@@ -1,7 +1,9 @@
-using Domain.Account;
+﻿using Domain.Account;
 using Domain.Account.Port;
 using Domain.Post;
 using Domain.Post.Port;
+using Domain.SuperAccount;
+using Domain.SuperAccount.Port;
 using FluentValidation;
 using Infra;
 using Infra.Account;
@@ -20,6 +22,7 @@ public static class ServiceExtension {
   public static IServiceCollection AddServices(this IServiceCollection services, ServiceLifetime lifetime) {
     services.Add(new ServiceDescriptor(typeof(IUserSession), typeof(UserSession), lifetime));
     services.Add(new ServiceDescriptor(typeof(AccountPort), typeof(AccountAdapter), lifetime));
+    services.Add(new ServiceDescriptor(typeof(SuperAccountPort), typeof(SuperAccountAdapter), lifetime));
     services.Add(new ServiceDescriptor(typeof(PostPort), typeof(PostAdapter), lifetime));
 
     return services;
@@ -38,6 +41,14 @@ public static class ServiceExtension {
     services.Add(new ServiceDescriptor(typeof(AccountCreateUseCaseHandler), typeof(AccountCreateUseCaseHandler), lifetime));
     services.Add(new ServiceDescriptor(typeof(AccountRetrieveUseCaseHandler), typeof(AccountRetrieveUseCaseHandler), lifetime));
     services.Add(new ServiceDescriptor(typeof(AccountAuthenticateUseCaseHandler), typeof(AccountAuthenticateUseCaseHandler), lifetime));
+
+    return services;
+  }
+
+  public static IServiceCollection AddSuperAccountUseCaseHandlers(this IServiceCollection services, ServiceLifetime lifetime) {
+    services.Add(new ServiceDescriptor(typeof(SuperAccountCreateUseCaseHandler), typeof(SuperAccountCreateUseCaseHandler), lifetime));
+    services.Add(new ServiceDescriptor(typeof(SuperAccountRetrieveUseCaseHandler), typeof(SuperAccountRetrieveUseCaseHandler), lifetime));
+    services.Add(new ServiceDescriptor(typeof(SuperAccountAuthenticateUseCaseHandler), typeof(SuperAccountAuthenticateUseCaseHandler), lifetime));
 
     return services;
   }

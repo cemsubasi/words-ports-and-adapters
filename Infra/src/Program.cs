@@ -1,10 +1,14 @@
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
+using Domain.Account.Entity;
+using Domain.SuperAccount.Entity;
 using Infra;
 using Infra.Configurations;
 using Infra.Context;
+using Infra.Filters;
 using Infra.Middlewares;
 using Infra.Post;
 using Mapster;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting.Server;
 using Serilog;
 using Serilog.Events;
@@ -37,12 +41,16 @@ PostMapper.Map(config);
 
 builder.Services.AddControllers(options => {
   options.Filters.Add<HttpResponseExceptionFilter>();
+  /* options.Filters.Add<CustomExceptionFilter>(); */
 });
 
 builder.Services.AddControllers()
   .AddJsonOptions(options => options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 builder.Services.AddAuthentication(args, configuration);
-builder.Services.AddAuthorization();
+builder.Services.AddAuthorization(options => {
+  options.AddPolicy(typeof(SuperAccountEntity).Name, policy => policy.RequireRole(typeof(SuperAccountEntity).Name));
+  options.AddPolicy(typeof(AccountEntity).Name, policy => policy.RequireRole(typeof(AccountEntity).Name));
+});
 builder.Services.Configure<Infra.Configurations.SentryOptions>(configuration.GetSection("Sentry"));
 builder.Services.Configure<JwtOptions>(configuration.GetSection("Jwt"));
 builder.Services.Configure<DBOptions>(configuration.GetSection("ConnectionStrings"));
@@ -50,6 +58,7 @@ builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls = true
 builder.Services.AddUtils(ServiceLifetime.Singleton);
 builder.Services.AddServices(ServiceLifetime.Scoped);
 builder.Services.AddAccountUseCaseHandlers(ServiceLifetime.Scoped);
+builder.Services.AddSuperAccountUseCaseHandlers(ServiceLifetime.Scoped);
 builder.Services.AddPostUseCaseHandlers(ServiceLifetime.Scoped);
 builder.Services.AddSwagger();
 builder.Services.AddDbContext<MainDbContext>();

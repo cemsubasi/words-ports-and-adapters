@@ -1,6 +1,6 @@
 {
   "ConnectionStrings": {
-    "MainDb": "server=localx.host;database=blog;port=9900;user=aven;password=ajh2kda29!!"
+    "MainDb": "server=localx.host;database=blog_dev;port=9900;user=aven;password=ajh2kda29!!"
   },
   "MySqlVersion": {
     "Major": 8,
@@ -8,8 +8,8 @@
     "Patch": 32 
   },
   "Jwt": {
-    "Issuer": "Issuer",
-    "Audience": "localhost",
+    "Issuer": "api.localx.host",
+    "Audience": "localx.host",
     "SecretKey": "YXBwLnN5bmNocm9uLmxvZ2lwb2x5LnYxLm5ldC5jb3JlLmRldg=="
   },
   "Sentry": {

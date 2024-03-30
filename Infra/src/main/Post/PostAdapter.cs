@@ -15,36 +15,70 @@ public class PostAdapter : PostPort {
     this.context = context;
   }
 
+  /* public async Task CreateAsync(CreatePost useCase, CancellationToken cancellationToken) { */
+  /*   var entity = useCase.Adapt<PostEntity>(); */
+
+  /*   // TODO: categoryId or categoryName must be validated */
+  /*   if (!useCase.CategoryId.HasValue) { */
+  /*     var category = await this.context.Categories */
+  /*       .AsNoTracking() */
+  /*       .SingleOrDefaultAsync(x => x.Category == useCase.CategoryName, cancellationToken); */
+
+  /*     if (category is not null) { */
+  /*       entity.CategoryId = category.Id; */
+  /*     } else { */
+  /*       var categoryEntity = new CategoryEntity { */
+  /*         Id = Guid.NewGuid(), */
+  /*         Category = useCase.CategoryName, */
+  /*       }; */
+
+  /*       entity.CategoryId = categoryEntity.Id; */
+  /*       entity.Category = categoryEntity; */
+
+  /*       _ = await this.context.Categories.AddAsync(categoryEntity, cancellationToken); */
+  /*       _ = await this.context.SaveChangesAsync(cancellationToken); */
+  /*     } */
+  /*   } */
+
+  /*   _ = await this.context.Posts.AddAsync(entity, cancellationToken); */
+  /*   var result = await this.context.SaveChangesAsync(cancellationToken); */
+  /*   if (result.Equals(0)) { */
+  /*     throw new DbUpdateException("An error occoured."); */
+  /*   } */
+  /* } */
+
   public async Task CreateAsync(CreatePost useCase, CancellationToken cancellationToken) {
     var entity = useCase.Adapt<PostEntity>();
 
-    // TODO: categoryId or categoryName must be validated
+    await ValidateAndSetCategoryAsync(useCase, entity, cancellationToken);
+
+    await this.context.Posts.AddAsync(entity, cancellationToken);
+    await this.context.SaveChangesAsync(cancellationToken);
+  }
+
+  private async Task ValidateAndSetCategoryAsync(CreatePost useCase, PostEntity entity, CancellationToken cancellationToken) {
     if (!useCase.CategoryId.HasValue) {
-      var category = await this.context.Categories
+      var category = await FindOrCreateCategoryAsync(useCase.CategoryName, cancellationToken);
+      entity.CategoryId = category.Id;
+    }
+  }
+
+  private async Task<CategoryEntity> FindOrCreateCategoryAsync(string categoryName, CancellationToken cancellationToken) {
+    var category = await this.context.Categories
         .AsNoTracking()
-        .SingleOrDefaultAsync(x => x.Category == useCase.CategoryName, cancellationToken);
+        .SingleOrDefaultAsync(x => x.Category == categoryName, cancellationToken);
 
-      if (category is not null) {
-        entity.CategoryId = category.Id;
-      } else {
-        var categoryEntity = new CategoryEntity {
-          Id = Guid.NewGuid(),
-          Category = useCase.CategoryName,
-        };
+    if (category is null) {
+      category = new CategoryEntity {
+        Id = Guid.NewGuid(),
+        Category = categoryName,
+      };
 
-        entity.CategoryId = categoryEntity.Id;
-        entity.Category = categoryEntity;
-
-        _ = await this.context.Categories.AddAsync(categoryEntity, cancellationToken);
-        _ = await this.context.SaveChangesAsync(cancellationToken);
-      }
+      await this.context.Categories.AddAsync(category, cancellationToken);
+      await this.context.SaveChangesAsync(cancellationToken);
     }
 
-    _ = await this.context.Posts.AddAsync(entity, cancellationToken);
-    var result = await this.context.SaveChangesAsync(cancellationToken);
-    if (result.Equals(0)) {
-      throw new DbUpdateException("An error occoured.");
-    }
+    return category;
   }
 
   public async Task<PostEntity[]> RetrieveAllAsync(DataRequest useCase, CancellationToken cancellationToken) {

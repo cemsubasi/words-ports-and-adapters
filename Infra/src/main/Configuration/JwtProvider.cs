@@ -1,4 +1,4 @@
-using System.IdentityModel.Tokens.Jwt;
+﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
@@ -11,24 +11,21 @@ namespace Infra.Configurations;
 public class JwtProvider : IJwtProvider {
   private readonly JwtOptions options;
   private DateTimeOffset expireTimeOffset => DateTimeOffset.UtcNow.AddDays(7);
+  private DateTime notBeforeTime => DateTimeOffset.UtcNow.DateTime;
 
   public JwtProvider(IOptions<JwtOptions> options) {
     this.options = options.Value;
   }
 
-  public (string, long) Generate(Guid id) {
+  public (string, long) Generate(Guid id, Claim[] claims = null) {
     var expireAt = this.expireTimeOffset.ToUnixTimeMilliseconds();
-    var claims = new Claim[] {
-      new Claim("id", id.ToString()),
-    };
-
     var signinCredentials = new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(options.SecretKey)), SecurityAlgorithms.HmacSha512);
 
     var token = new JwtSecurityToken(
       options.Issuer,
       options.Audience,
       claims,
-      null,
+      notBeforeTime,
       expireTimeOffset.LocalDateTime,
       signinCredentials);
     var tokenHandler = new JwtSecurityTokenHandler();
