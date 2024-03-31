@@ -30,7 +30,14 @@
     "Enrich": ["FromLogContext", "WithHttpRequestId"],
     "AllowedHosts": "*",
     "WriteTo": [
-      "Console"
+      "Console",
+      {
+        "Name": "Sentry",
+        "Args": {
+          "MinimumBreadcrumbLevel": "Error",
+          "MinimumEventLevel": "Error"
+        }
+      }
     ]
   }
 }

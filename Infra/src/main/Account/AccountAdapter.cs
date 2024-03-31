@@ -34,8 +34,8 @@ public class AccountAdapter : AccountPort {
     AccountNotFoundException.ThrowIfFalse(generatedPassword == user.Password);
 
     var claims = new[]{
-      new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
-      new Claim(ClaimTypes.Role, user.GetType().Name),
+      new Claim("sub", user.Id.ToString()),
+      new Claim("role", user.GetType().Name),
     };
 
     var token = this.jwtProvider.Generate(user.Id, claims);

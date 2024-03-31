@@ -34,8 +34,8 @@ public class SuperAccountAdapter : SuperAccountPort {
     AccountNotFoundException.ThrowIfFalse(generatedPassword == user.Password);
 
     var claims = new[]{
-      new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
-      new Claim(ClaimTypes.Role, user.GetType().Name),
+      new Claim("sub", user.Id.ToString()),
+      new Claim("role", user.GetType().Name),
     };
 
     var token = this.jwtProvider.Generate(user.Id, claims);
@@ -44,6 +44,10 @@ public class SuperAccountAdapter : SuperAccountPort {
 
   public async Task<SuperAccountEntity> CreateAsync(SuperAccountCreate accountCreate, CancellationToken cancellationToken) {
     var accountEntity = accountCreate.Adapt<SuperAccountEntity>();
+    if (accountEntity is null) {
+      throw new ArgumentNullException();
+    }
+
     await this.context.SuperAccounts.AddAsync(accountEntity);
     var changes = await this.context.SaveChangesAsync(cancellationToken);
 

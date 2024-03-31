@@ -24,6 +24,6 @@ public class SuperAccountCreateRequest {
       throw new Exception(validationResult.Errors.First().ErrorMessage);
     }
 
-    return AccountCreate.Build(this.Name, this.Email, this.Phone, this.Password) as SuperAccountCreate;
+    return SuperAccountCreate.Build(this.Name, this.Email, this.Phone, this.Password);
   }
 }

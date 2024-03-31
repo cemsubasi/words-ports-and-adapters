@@ -12,7 +12,7 @@ public class SuperAccountAuthenticate : AccountAuthenticate {
     this.Password = password;
   }
 
-  public static SuperAccountAuthenticate Build(string email, string password) {
+  public static new SuperAccountAuthenticate Build(string email, string password) {
     return new SuperAccountAuthenticate(email, password);
   }
 }

@@ -1,16 +1,14 @@
-using Infra.Common;
-
-namespace Infra.Account;
+﻿namespace Infra.Account;
 
 public class AccountNotFoundException : UnauthorizedAccessException {
   /* private static string _message = "Missing or invalid credentials."; */
 
   public int StatusCode => (int)StatusCodes.Status401Unauthorized;
 
-  public AccountNotFoundException() {
+  public AccountNotFoundException() : base() {
   }
 
-  public AccountNotFoundException(string message) {
+  public AccountNotFoundException(string message) : base(message) {
   }
 
   public static void ThrowIfNull(object obj, string message) {

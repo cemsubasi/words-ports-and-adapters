@@ -10,8 +10,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Infra.Controllers;
 
-[Authorize]
 [ApiController]
+[Authorize(Policy = nameof(SuperAccountEntity))]
 [Route("[controller]")]
 public class SuperAccountController : ControllerBase {
   private readonly ILogger<AccountController> _logger;
@@ -28,8 +28,8 @@ public class SuperAccountController : ControllerBase {
     this.session = session;
   }
 
-  [AllowAnonymous]
   [HttpPost]
+  /* [Authorize(Policy = nameof(SuperAccountEntity))] */
   public async Task<IActionResult> CreateAccount([FromBody] SuperAccountCreateRequest accountCreateRequest, CancellationToken cancellationToken) {
     var createAccount = await this.accountCreateUseCaseHandler.Handle(accountCreateRequest.ToUseCase(), cancellationToken);
 
@@ -37,7 +37,7 @@ public class SuperAccountController : ControllerBase {
   }
 
   [HttpGet]
-  [Authorize(Policy = "SuperAccountEntity")]
+  /* [Authorize(Policy = nameof(SuperAccountEntity))] */
   public async Task<IActionResult> RetrieveAccount([FromQuery] Guid id, CancellationToken cancellationToken) {
     var retrieveAccount = await this.accountRetrieveUseCaseHandler.Handle(SuperAccountRetrieve.Build(id), cancellationToken);
 
@@ -45,8 +45,9 @@ public class SuperAccountController : ControllerBase {
   }
 
   [HttpPost("all")]
-  [Authorize(Policy = "SuperAccountEntity")]
+  [Authorize(Policy = nameof(SuperAccountEntity))]
   public async Task<IActionResult> RetrieveAccounts([FromBody] DataRequest request, CancellationToken cancellationToken) {
+    /* Console.WriteLine("User {UserId} is authenticated", session.Id); */
     var accounts = await this.accountRetrieveUseCaseHandler.Handle(request, cancellationToken);
 
     return this.Ok(SuperAccountRetrieveResponse.From(accounts));

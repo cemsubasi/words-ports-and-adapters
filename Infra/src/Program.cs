@@ -8,7 +8,6 @@ using Infra.Filters;
 using Infra.Middlewares;
 using Infra.Post;
 using Mapster;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting.Server;
 using Serilog;
 using Serilog.Events;
@@ -48,8 +47,8 @@ builder.Services.AddControllers()
   .AddJsonOptions(options => options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 builder.Services.AddAuthentication(args, configuration);
 builder.Services.AddAuthorization(options => {
-  options.AddPolicy(typeof(SuperAccountEntity).Name, policy => policy.RequireRole(typeof(SuperAccountEntity).Name));
-  options.AddPolicy(typeof(AccountEntity).Name, policy => policy.RequireRole(typeof(AccountEntity).Name));
+  options.AddPolicy(nameof(SuperAccountEntity), policy => policy.RequireRole(typeof(SuperAccountEntity).Name));
+  options.AddPolicy(nameof(AccountEntity), policy => policy.RequireRole(typeof(AccountEntity).Name));
 });
 builder.Services.Configure<Infra.Configurations.SentryOptions>(configuration.GetSection("Sentry"));
 builder.Services.Configure<JwtOptions>(configuration.GetSection("Jwt"));

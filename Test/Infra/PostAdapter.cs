@@ -1,12 +1,9 @@
-using System.Threading;
-using System.Threading.Tasks;
-using Domain.Post.Entity;
+﻿using Domain.Post.Entity;
 using Domain.Post.UseCase;
 using Infra.Context;
 using Infra.Post.Adapter;
 using Microsoft.EntityFrameworkCore;
 using Moq;
-using Xunit;
 
 namespace Test;
 

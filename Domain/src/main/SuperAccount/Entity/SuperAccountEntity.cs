@@ -1,4 +1,4 @@
-using Domain.Account.Entity;
+﻿using Domain.Account.Entity;
 
 namespace Domain.SuperAccount.Entity;
 
