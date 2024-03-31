@@ -29,25 +29,21 @@ public class SuperAccountController : ControllerBase {
   }
 
   [HttpPost]
-  /* [Authorize(Policy = nameof(SuperAccountEntity))] */
-  public async Task<IActionResult> CreateAccount([FromBody] SuperAccountCreateRequest accountCreateRequest, CancellationToken cancellationToken) {
+  public async Task<IActionResult> Create([FromBody] SuperAccountCreateRequest accountCreateRequest, CancellationToken cancellationToken) {
     var createAccount = await this.accountCreateUseCaseHandler.Handle(accountCreateRequest.ToUseCase(), cancellationToken);
 
     return this.Ok(SuperAccountCreateResponse.From(createAccount));
   }
 
   [HttpGet]
-  /* [Authorize(Policy = nameof(SuperAccountEntity))] */
-  public async Task<IActionResult> RetrieveAccount([FromQuery] Guid id, CancellationToken cancellationToken) {
+  public async Task<IActionResult> Retrieve([FromQuery] Guid id, CancellationToken cancellationToken) {
     var retrieveAccount = await this.accountRetrieveUseCaseHandler.Handle(SuperAccountRetrieve.Build(id), cancellationToken);
 
     return this.Ok(SuperAccountRetrieveResponse.From(retrieveAccount));
   }
 
   [HttpPost("all")]
-  [Authorize(Policy = nameof(SuperAccountEntity))]
-  public async Task<IActionResult> RetrieveAccounts([FromBody] DataRequest request, CancellationToken cancellationToken) {
-    /* Console.WriteLine("User {UserId} is authenticated", session.Id); */
+  public async Task<IActionResult> Retrieve([FromBody] DataRequest request, CancellationToken cancellationToken) {
     var accounts = await this.accountRetrieveUseCaseHandler.Handle(request, cancellationToken);
 
     return this.Ok(SuperAccountRetrieveResponse.From(accounts));
