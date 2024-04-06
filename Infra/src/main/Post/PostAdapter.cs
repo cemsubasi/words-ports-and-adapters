@@ -1,4 +1,4 @@
-using Domain.Category.Entity;
+﻿using Domain.Category.Entity;
 using Domain.Common;
 using Domain.Post.Entity;
 using Domain.Post.Port;
@@ -86,6 +86,7 @@ public class PostAdapter : PostPort {
       .AsNoTrackingWithIdentityResolution()
       .Where(x => x.AccountId == useCase.OwnerId)
       .Include(x => x.Comments)
+      .ThenInclude(x => x.SubComments)
       .Include(x => x.Account)
       .Include(x => x.Category)
       .Skip(useCase.Page * useCase.Size)

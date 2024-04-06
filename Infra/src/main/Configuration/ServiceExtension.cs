@@ -1,5 +1,7 @@
 ﻿using Domain.Account;
 using Domain.Account.Port;
+using Domain.Comment;
+using Domain.Comment.Port;
 using Domain.Post;
 using Domain.Post.Port;
 using Domain.SuperAccount;
@@ -8,6 +10,7 @@ using FluentValidation;
 using Infra;
 using Infra.Account;
 using Infra.Account.Validator;
+using Infra.Comment.Adapter;
 using Infra.Controllers.Account;
 using Infra.Post.Adapter;
 using Microsoft.AspNetCore;
@@ -24,6 +27,7 @@ public static class ServiceExtension {
     services.Add(new ServiceDescriptor(typeof(AccountPort), typeof(AccountAdapter), lifetime));
     services.Add(new ServiceDescriptor(typeof(SuperAccountPort), typeof(SuperAccountAdapter), lifetime));
     services.Add(new ServiceDescriptor(typeof(PostPort), typeof(PostAdapter), lifetime));
+    services.Add(new ServiceDescriptor(typeof(CommentPort), typeof(CommentAdapter), lifetime));
 
     return services;
   }
@@ -59,6 +63,13 @@ public static class ServiceExtension {
 
     return services;
   }
+
+  public static IServiceCollection AddCommentUseCaseHandlers(this IServiceCollection services, ServiceLifetime lifetime) {
+    services.Add(new ServiceDescriptor(typeof(CreateCommentUseCaseHandler), typeof(CreateCommentUseCaseHandler), lifetime));
+
+    return services;
+  }
+
   public static IServiceCollection AddUtils(this IServiceCollection services, ServiceLifetime lifetime) {
     services.Add(new ServiceDescriptor(typeof(IJwtProvider), typeof(JwtProvider), lifetime));
     services.Add(new ServiceDescriptor(typeof(JwtOptions), typeof(JwtOptions), lifetime));

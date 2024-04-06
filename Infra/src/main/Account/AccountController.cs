@@ -15,14 +15,12 @@ namespace Infra.Controllers;
 [ApiController]
 [Route("[controller]")]
 public class AccountController : ControllerBase {
-  private readonly ILogger<AccountController> _logger;
   private readonly AccountCreateUseCaseHandler accountCreateUseCaseHandler;
   private readonly AccountRetrieveUseCaseHandler accountRetrieveUseCaseHandler;
   private readonly AccountAuthenticateUseCaseHandler accountAuthenticateUseCaseHandler;
   private readonly IUserSession session;
 
-  public AccountController(ILogger<AccountController> logger, AccountCreateUseCaseHandler accountCreateUseCaseHandler, AccountRetrieveUseCaseHandler accountRetrieveUseCaseHandler, AccountAuthenticateUseCaseHandler accountAuthenticateUseCaseHandler, IUserSession session) {
-    _logger = logger;
+  public AccountController(AccountCreateUseCaseHandler accountCreateUseCaseHandler, AccountRetrieveUseCaseHandler accountRetrieveUseCaseHandler, AccountAuthenticateUseCaseHandler accountAuthenticateUseCaseHandler, IUserSession session) {
     this.accountCreateUseCaseHandler = accountCreateUseCaseHandler;
     this.accountRetrieveUseCaseHandler = accountRetrieveUseCaseHandler;
     this.accountAuthenticateUseCaseHandler = accountAuthenticateUseCaseHandler;

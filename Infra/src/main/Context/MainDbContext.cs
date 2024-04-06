@@ -71,6 +71,11 @@ public class MainDbContext : DbContext {
       .HasMany(x => x.Comments)
       .WithOne(x => x.Post)
       .HasForeignKey(x => x.PostId);
+
+    _ = builder.Entity<CommentEntity>()
+      .HasOne(x => x.ParentComment)
+      .WithMany(x => x.SubComments)
+      .HasForeignKey(x => x.ParentCommentId);
   }
 
   public virtual DbSet<AccountEntity> Accounts { get; set; }

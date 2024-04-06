@@ -2,6 +2,7 @@
 using Domain.Account.Entity;
 using Domain.SuperAccount.Entity;
 using Infra;
+using Infra.Comment;
 using Infra.Configurations;
 using Infra.Context;
 using Infra.Filters;
@@ -37,6 +38,7 @@ Log.Information("Environment is {0}", configuration["environment"]);
 var config = TypeAdapterConfig.GlobalSettings;
 config.AllowImplicitDestinationInheritance = true;
 PostMapper.Map(config);
+CommentMapper.Map(config);
 
 builder.Services.AddControllers(options => {
   options.Filters.Add<HttpResponseExceptionFilter>();
@@ -57,6 +59,7 @@ builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls = true
 builder.Services.AddUtils(ServiceLifetime.Singleton);
 builder.Services.AddServices(ServiceLifetime.Scoped);
 builder.Services.AddAccountUseCaseHandlers(ServiceLifetime.Scoped);
+builder.Services.AddCommentUseCaseHandlers(ServiceLifetime.Scoped);
 builder.Services.AddSuperAccountUseCaseHandlers(ServiceLifetime.Scoped);
 builder.Services.AddPostUseCaseHandlers(ServiceLifetime.Scoped);
 builder.Services.AddSwagger();
