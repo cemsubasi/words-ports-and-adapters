@@ -12,6 +12,15 @@ public class AccountCreateUseCaseHandler {
   }
 
   public async Task<AccountEntity> Handle(AccountCreate accountCreate, CancellationToken cancellationToken) {
-    return await accountPort.CreateAsync(accountCreate, cancellationToken);
+    var accountEntity = AccountEntity.Create(
+        id: Guid.NewGuid(),
+        email: accountCreate.Email,
+        name: accountCreate.Name,
+        phone: accountCreate.Phone,
+        password: accountCreate.Password,
+        passwordSalt: accountCreate.PasswordSalt
+        );
+
+    return await accountPort.CreateAsync(accountEntity, cancellationToken);
   }
 }

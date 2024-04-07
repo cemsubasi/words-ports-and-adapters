@@ -1,4 +1,5 @@
-﻿using Domain.Post.Entity;
+﻿using Domain.Account.Entity;
+using Domain.Post.Entity;
 
 namespace Domain.Comment.Entity;
 
@@ -12,4 +13,5 @@ public class CommentEntity {
   public string Comment { get; set; }
   public DateTimeOffset CreatedAt { get; set; }
   public Guid? CreatedBy { get; set; }
+  public virtual AccountEntity Creator { get; set; }
 }

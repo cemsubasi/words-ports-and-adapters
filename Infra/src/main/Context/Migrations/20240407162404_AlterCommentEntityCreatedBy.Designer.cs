@@ -4,6 +4,7 @@ using Infra.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infra.src.main.Context.Migrations
 {
     [DbContext(typeof(MainDbContext))]
-    partial class MainDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240407162404_AlterCommentEntityCreatedBy")]
+    partial class AlterCommentEntityCreatedBy
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -26,12 +29,6 @@ namespace Infra.src.main.Context.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
-
-                    b.Property<DateTimeOffset>("CreatedAt")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<Guid?>("CreatedBy")
                         .HasColumnType("char(36)");
 
                     b.Property<string>("Email")
@@ -53,12 +50,7 @@ namespace Infra.src.main.Context.Migrations
                     b.Property<string>("Phone")
                         .HasColumnType("longtext");
 
-                    b.Property<DateTimeOffset>("UpdatedAt")
-                        .HasColumnType("datetime(6)");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("CreatedBy");
 
                     b.HasIndex("Email")
                         .IsUnique();
@@ -104,8 +96,6 @@ namespace Infra.src.main.Context.Migrations
                         .HasColumnType("char(36)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CreatedBy");
 
                     b.HasIndex("ParentCommentId");
 
@@ -163,21 +153,8 @@ namespace Infra.src.main.Context.Migrations
                     b.ToTable("SuperAccounts", (string)null);
                 });
 
-            modelBuilder.Entity("Domain.Account.Entity.AccountEntity", b =>
-                {
-                    b.HasOne("Domain.Account.Entity.AccountEntity", "Creator")
-                        .WithMany()
-                        .HasForeignKey("CreatedBy");
-
-                    b.Navigation("Creator");
-                });
-
             modelBuilder.Entity("Domain.Comment.Entity.CommentEntity", b =>
                 {
-                    b.HasOne("Domain.Account.Entity.AccountEntity", "Creator")
-                        .WithMany()
-                        .HasForeignKey("CreatedBy");
-
                     b.HasOne("Domain.Comment.Entity.CommentEntity", "ParentComment")
                         .WithMany("SubComments")
                         .HasForeignKey("ParentCommentId");
@@ -187,8 +164,6 @@ namespace Infra.src.main.Context.Migrations
                         .HasForeignKey("PostId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Creator");
 
                     b.Navigation("ParentComment");
 
