@@ -14,7 +14,12 @@ public class CommentAdapter : CommentPort {
   public CommentAdapter(MainDbContext context) => this.context = context;
 
   public async Task CreateAsync(CreateComment useCase, CancellationToken cancellationToken) {
-    var entity = useCase.Adapt<CommentEntity>();
+    var entity = CommentEntity.Create(
+      id: Guid.NewGuid(),
+      postId: useCase.PostId,
+      parentCommentId: useCase.ParentCommentId,
+      comment: useCase.Comment
+    );
 
     if (entity is null) {
       throw new ArgumentNullException();

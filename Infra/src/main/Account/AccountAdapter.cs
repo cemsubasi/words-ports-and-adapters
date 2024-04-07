@@ -42,7 +42,15 @@ public class AccountAdapter : AccountPort {
     return (token.Item1, token.Item2);
   }
 
-  public async Task<AccountEntity> CreateAsync(AccountEntity accountEntity, CancellationToken cancellationToken) {
+  public async Task<AccountEntity> CreateAsync(AccountCreate accountCreate, CancellationToken cancellationToken) {
+    var accountEntity = AccountEntity.Create(
+      id: Guid.NewGuid(),
+      email: accountCreate.Email,
+      name: accountCreate.Name,
+      phone: accountCreate.Phone,
+      password: accountCreate.Password,
+      passwordSalt: accountCreate.PasswordSalt);
+
     await this.context.Accounts.AddAsync(accountEntity);
     var changes = await this.context.SaveChangesAsync(cancellationToken);
 
