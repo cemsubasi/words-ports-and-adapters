@@ -1,4 +1,4 @@
-using Domain.Common;
+﻿using Domain.Common;
 using Domain.Post.Entity;
 using Domain.Post.Port;
 using Domain.Post.UseCase;
@@ -16,7 +16,7 @@ public class RetrievePostUseCaseHandler {
     return result;
   }
 
-  public async Task<PostEntity[]> Handle(DataRequest useCase, CancellationToken cancellationToken) {
+  public async Task<PostEntity[]> Handle(RetrieveAllPosts useCase, CancellationToken cancellationToken) {
     var result = await this.postPort.RetrieveAllAsync(useCase, cancellationToken);
 
     return result;

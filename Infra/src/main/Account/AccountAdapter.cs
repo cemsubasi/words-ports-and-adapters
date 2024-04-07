@@ -1,3 +1,5 @@
+﻿using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using Domain.Account.Entity;
 using Domain.Account.Port;
 using Domain.Account.UseCase;
@@ -25,17 +27,18 @@ public class AccountAdapter : AccountPort {
       .Where(x => x.Email == accountAuthenticate.Email)
       .SingleOrDefaultAsync(cancellationToken);
 
-    if (user is null) {
-      throw new KeyNotFoundException($"User not found with email: {accountAuthenticate.Email}");
-    }
+    AccountNotFoundException.ThrowIfNull(user);
 
     var generatedPassword = accountAuthenticate.GenerateHash(accountAuthenticate.Password, user.PasswordSalt);
 
-    if (generatedPassword != user.Password) {
-      throw new InvalidOperationException("Password didn't match.");
-    }
+    AccountNotFoundException.ThrowIfFalse(generatedPassword == user.Password);
 
-    var token = this.jwtProvider.Generate(user.Id);
+    var claims = new[]{
+      new Claim("sub", user.Id.ToString()),
+      new Claim("role", user.GetType().Name),
+    };
+
+    var token = this.jwtProvider.Generate(user.Id, claims);
     return (token.Item1, token.Item2);
   }
 

@@ -50,6 +50,8 @@ namespace Infra.src.main.Context.Migrations
                         .IsUnique();
 
                     b.ToTable("Accounts", (string)null);
+
+                    b.UseTptMappingStrategy();
                 });
 
             modelBuilder.Entity("Domain.Category.Entity.CategoryEntity", b =>
@@ -63,7 +65,7 @@ namespace Infra.src.main.Context.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories", (string)null);
+                    b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("Domain.Comment.Entity.CommentEntity", b =>
@@ -93,7 +95,7 @@ namespace Infra.src.main.Context.Migrations
 
                     b.HasIndex("PostId");
 
-                    b.ToTable("Comments", (string)null);
+                    b.ToTable("Comments");
                 });
 
             modelBuilder.Entity("Domain.Post.Entity.PostEntity", b =>
@@ -135,7 +137,14 @@ namespace Infra.src.main.Context.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Posts", (string)null);
+                    b.ToTable("Posts");
+                });
+
+            modelBuilder.Entity("Domain.SuperAccount.Entity.SuperAccountEntity", b =>
+                {
+                    b.HasBaseType("Domain.Account.Entity.AccountEntity");
+
+                    b.ToTable("SuperAccounts", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Comment.Entity.CommentEntity", b =>
@@ -158,7 +167,7 @@ namespace Infra.src.main.Context.Migrations
             modelBuilder.Entity("Domain.Post.Entity.PostEntity", b =>
                 {
                     b.HasOne("Domain.Account.Entity.AccountEntity", "Account")
-                        .WithMany()
+                        .WithMany("Posts")
                         .HasForeignKey("AccountId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -172,6 +181,20 @@ namespace Infra.src.main.Context.Migrations
                     b.Navigation("Account");
 
                     b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("Domain.SuperAccount.Entity.SuperAccountEntity", b =>
+                {
+                    b.HasOne("Domain.Account.Entity.AccountEntity", null)
+                        .WithOne()
+                        .HasForeignKey("Domain.SuperAccount.Entity.SuperAccountEntity", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Domain.Account.Entity.AccountEntity", b =>
+                {
+                    b.Navigation("Posts");
                 });
 
             modelBuilder.Entity("Domain.Category.Entity.CategoryEntity", b =>

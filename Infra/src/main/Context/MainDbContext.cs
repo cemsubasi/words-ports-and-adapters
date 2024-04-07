@@ -1,7 +1,8 @@
-using Domain.Account.Entity;
+﻿using Domain.Account.Entity;
 using Domain.Category.Entity;
 using Domain.Comment.Entity;
 using Domain.Post.Entity;
+using Domain.SuperAccount.Entity;
 using Infra.Configurations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
@@ -12,6 +13,8 @@ namespace Infra.Context;
 public class MainDbContext : DbContext {
   private readonly string connectionString;
   private readonly ILogger<MainDbContext> logger;
+  public MainDbContext() {
+  }
 
   public MainDbContext(ILogger<MainDbContext> logger, IConfiguration configuration, IOptions<DBOptions> options) : base() {
     this.connectionString = options.Value.MainDb;
@@ -36,11 +39,23 @@ public class MainDbContext : DbContext {
   }
 
   protected override void OnModelCreating(ModelBuilder builder) {
+    _ = builder.Entity<AccountEntity>()
+        .ToTable("Accounts");
+
+    _ = builder.Entity<SuperAccountEntity>()
+        .ToTable("SuperAccounts");
+
     _ = builder.Entity<AccountEntity>().HasIndex(x => x.Email).IsUnique();
     _ = builder.Entity<AccountEntity>().Property(x => x.Email).IsRequired();
     _ = builder.Entity<AccountEntity>().Property(x => x.Name).IsRequired();
     _ = builder.Entity<AccountEntity>().Property(x => x.Password).IsRequired();
     _ = builder.Entity<AccountEntity>().Property(x => x.PasswordSalt).IsRequired();
+
+    _ = builder.Entity<SuperAccountEntity>().HasIndex(x => x.Email).IsUnique();
+    _ = builder.Entity<SuperAccountEntity>().Property(x => x.Email).IsRequired();
+    _ = builder.Entity<SuperAccountEntity>().Property(x => x.Name).IsRequired();
+    _ = builder.Entity<SuperAccountEntity>().Property(x => x.Password).IsRequired();
+    _ = builder.Entity<SuperAccountEntity>().Property(x => x.PasswordSalt).IsRequired();
 
     _ = builder.Entity<PostEntity>()
       .HasOne(x => x.Category)
@@ -56,10 +71,16 @@ public class MainDbContext : DbContext {
       .HasMany(x => x.Comments)
       .WithOne(x => x.Post)
       .HasForeignKey(x => x.PostId);
+
+    _ = builder.Entity<CommentEntity>()
+      .HasOne(x => x.ParentComment)
+      .WithMany(x => x.SubComments)
+      .HasForeignKey(x => x.ParentCommentId);
   }
 
-  public DbSet<AccountEntity> Accounts { get; set; }
-  public DbSet<PostEntity> Posts { get; set; }
-  public DbSet<CommentEntity> Comments { get; set; }
-  public DbSet<CategoryEntity> Categories { get; set; }
+  public virtual DbSet<AccountEntity> Accounts { get; set; }
+  public virtual DbSet<SuperAccountEntity> SuperAccounts { get; set; }
+  public virtual DbSet<PostEntity> Posts { get; set; }
+  public virtual DbSet<CommentEntity> Comments { get; set; }
+  public virtual DbSet<CategoryEntity> Categories { get; set; }
 }

@@ -1,5 +1,5 @@
-using Domain.Common;
-using Domain.Post;
+﻿using Domain.Post;
+using Domain.Post.UseCase;
 using Infra.Post.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -21,22 +21,22 @@ public class PostController : ControllerBase {
   }
 
   [HttpPost]
-  public async Task<IActionResult> CreatePost(PostCreateRequest request, CancellationToken cancellationToken) {
+  public async Task<IActionResult> Create(PostCreateRequest request, CancellationToken cancellationToken) {
     await this.createUseCaseHandler.Handle(request.ToUseCase(this.session.Id), cancellationToken);
 
     return this.NoContent();
   }
 
   [HttpGet]
-  public async Task<IActionResult> RetrievePost([FromQuery] Guid id, CancellationToken cancellationToken) {
+  public async Task<IActionResult> Retrieve([FromQuery] Guid id, CancellationToken cancellationToken) {
     var result = await this.retrieveUseCaseHandler.Handle(PostRetrieveRequest.ToUseCase(id, this.session.Id), cancellationToken);
 
     return this.Ok(PostRetrieveResponse.From(result));
   }
 
   [HttpPost("all")]
-  public async Task<IActionResult> CreatePost(DataRequest request, CancellationToken cancellationToken) {
-    var result = await this.retrieveUseCaseHandler.Handle(request.Build(this.session.Id), cancellationToken);
+  public async Task<IActionResult> Retrieve([FromBody] RetrieveAllPostsRequest request, CancellationToken cancellationToken) {
+    var result = await this.retrieveUseCaseHandler.Handle(request.ToUseCase(this.session.Id), cancellationToken);
 
     return this.Ok(PostRetrieveResponse.From(result));
   }

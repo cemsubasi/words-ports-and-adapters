@@ -1,11 +1,31 @@
+﻿using System.Text.Json;
+using Serilog;
+
 namespace Infra.Controllers.Common;
 
 public class ErrorResponse {
-  public int errorCode { get; set; }
-  public string errorMessage { get; set; }
+  private string StackTrace { get; set; }
 
-  public ErrorResponse(int errorCode, string errorMessage) {
-    this.errorCode = errorCode;
-    this.errorMessage = errorMessage;
+  public string TraceId { get; private set; }
+  public string Message { get; private set; }
+  public List<InnerResponse> InnerExceptions { get; private set; }
+
+  public ErrorResponse(Exception exception, string traceId) {
+    this.TraceId = traceId;
+    this.Message = exception?.Message ?? "An error occurred";
+    this.InnerExceptions = exception?.InnerException != null ? new List<InnerResponse> { new InnerResponse(exception.InnerException) } : new List<InnerResponse>();
+    this.StackTrace = exception?.StackTrace ?? "No stack trace available";
+
+    Log.Fatal(
+      $@"Exception: {JsonSerializer.Serialize(this)}
+       StackTrace: {this.StackTrace}");
+  }
+
+  public class InnerResponse {
+    public InnerResponse(Exception innerException) {
+      this.Message = innerException.Message;
+    }
+
+    public string Message { get; set; }
   }
 }

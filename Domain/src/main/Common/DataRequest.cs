@@ -1,24 +1,19 @@
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace Domain.Common;
 
 public class DataRequest {
-  [JsonIgnore]
-  public Guid OwnerId { get; private set; }
+  private const int DEFAULT_SIZE = 10;
+
   public int Page { get; private set; }
   public int Size { get; private set; }
 
-  public DataRequest(Guid ownerId, int page, int size) {
-    this.OwnerId = ownerId;
+  public DataRequest(int page, int size) {
     this.Page = page;
-    this.Size = size;
+    this.Size = size == 0 ? DEFAULT_SIZE : size;
   }
 
   public DataRequest Build() {
-    return new DataRequest(this.OwnerId, this.Page, this.Size);
-  }
-
-  public DataRequest Build(Guid ownerId) {
-    return new DataRequest(ownerId, this.Page, this.Size);
+    return new DataRequest(this.Page, this.Size);
   }
 }

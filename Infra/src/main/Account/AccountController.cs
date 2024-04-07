@@ -1,4 +1,4 @@
-using Domain.Account;
+﻿using Domain.Account;
 using Domain.Account.UseCase;
 using Domain.Common;
 
@@ -15,14 +15,12 @@ namespace Infra.Controllers;
 [ApiController]
 [Route("[controller]")]
 public class AccountController : ControllerBase {
-  private readonly ILogger<AccountController> _logger;
   private readonly AccountCreateUseCaseHandler accountCreateUseCaseHandler;
   private readonly AccountRetrieveUseCaseHandler accountRetrieveUseCaseHandler;
   private readonly AccountAuthenticateUseCaseHandler accountAuthenticateUseCaseHandler;
   private readonly IUserSession session;
 
-  public AccountController(ILogger<AccountController> logger, AccountCreateUseCaseHandler accountCreateUseCaseHandler, AccountRetrieveUseCaseHandler accountRetrieveUseCaseHandler, AccountAuthenticateUseCaseHandler accountAuthenticateUseCaseHandler, IUserSession session) {
-    _logger = logger;
+  public AccountController(AccountCreateUseCaseHandler accountCreateUseCaseHandler, AccountRetrieveUseCaseHandler accountRetrieveUseCaseHandler, AccountAuthenticateUseCaseHandler accountAuthenticateUseCaseHandler, IUserSession session) {
     this.accountCreateUseCaseHandler = accountCreateUseCaseHandler;
     this.accountRetrieveUseCaseHandler = accountRetrieveUseCaseHandler;
     this.accountAuthenticateUseCaseHandler = accountAuthenticateUseCaseHandler;
@@ -41,10 +39,11 @@ public class AccountController : ControllerBase {
   public async Task<IActionResult> RetrieveAccount([FromQuery] Guid id, CancellationToken cancellationToken) {
     var retrieveAccount = await this.accountRetrieveUseCaseHandler.Handle(AccountRetrieve.Build(id), cancellationToken);
 
-    return this.Respond(AccountRetrieveResponse.From(retrieveAccount));
+    return this.Ok(AccountRetrieveResponse.From(retrieveAccount));
   }
 
   [HttpPost("all")]
+  [Authorize(Policy = "SuperAccountEntity")]
   public async Task<IActionResult> RetrieveAccounts([FromBody] DataRequest request, CancellationToken cancellationToken) {
     var accounts = await this.accountRetrieveUseCaseHandler.Handle(request, cancellationToken);
 

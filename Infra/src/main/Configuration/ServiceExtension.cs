@@ -1,11 +1,16 @@
-using Domain.Account;
+﻿using Domain.Account;
 using Domain.Account.Port;
+using Domain.Comment;
+using Domain.Comment.Port;
 using Domain.Post;
 using Domain.Post.Port;
+using Domain.SuperAccount;
+using Domain.SuperAccount.Port;
 using FluentValidation;
 using Infra;
 using Infra.Account;
 using Infra.Account.Validator;
+using Infra.Comment.Adapter;
 using Infra.Controllers.Account;
 using Infra.Post.Adapter;
 using Microsoft.AspNetCore;
@@ -20,7 +25,9 @@ public static class ServiceExtension {
   public static IServiceCollection AddServices(this IServiceCollection services, ServiceLifetime lifetime) {
     services.Add(new ServiceDescriptor(typeof(IUserSession), typeof(UserSession), lifetime));
     services.Add(new ServiceDescriptor(typeof(AccountPort), typeof(AccountAdapter), lifetime));
+    services.Add(new ServiceDescriptor(typeof(SuperAccountPort), typeof(SuperAccountAdapter), lifetime));
     services.Add(new ServiceDescriptor(typeof(PostPort), typeof(PostAdapter), lifetime));
+    services.Add(new ServiceDescriptor(typeof(CommentPort), typeof(CommentAdapter), lifetime));
 
     return services;
   }
@@ -42,12 +49,28 @@ public static class ServiceExtension {
     return services;
   }
 
+  public static IServiceCollection AddSuperAccountUseCaseHandlers(this IServiceCollection services, ServiceLifetime lifetime) {
+    services.Add(new ServiceDescriptor(typeof(SuperAccountCreateUseCaseHandler), typeof(SuperAccountCreateUseCaseHandler), lifetime));
+    services.Add(new ServiceDescriptor(typeof(SuperAccountRetrieveUseCaseHandler), typeof(SuperAccountRetrieveUseCaseHandler), lifetime));
+    services.Add(new ServiceDescriptor(typeof(SuperAccountAuthenticateUseCaseHandler), typeof(SuperAccountAuthenticateUseCaseHandler), lifetime));
+
+    return services;
+  }
+
   public static IServiceCollection AddPostUseCaseHandlers(this IServiceCollection services, ServiceLifetime lifetime) {
     services.Add(new ServiceDescriptor(typeof(CreatePostUseCaseHandler), typeof(CreatePostUseCaseHandler), lifetime));
     services.Add(new ServiceDescriptor(typeof(RetrievePostUseCaseHandler), typeof(RetrievePostUseCaseHandler), lifetime));
 
     return services;
   }
+
+  public static IServiceCollection AddCommentUseCaseHandlers(this IServiceCollection services, ServiceLifetime lifetime) {
+    services.Add(new ServiceDescriptor(typeof(CreateCommentUseCaseHandler), typeof(CreateCommentUseCaseHandler), lifetime));
+    services.Add(new ServiceDescriptor(typeof(RetrieveCommentUseCaseHandler), typeof(RetrieveCommentUseCaseHandler), lifetime));
+
+    return services;
+  }
+
   public static IServiceCollection AddUtils(this IServiceCollection services, ServiceLifetime lifetime) {
     services.Add(new ServiceDescriptor(typeof(IJwtProvider), typeof(JwtProvider), lifetime));
     services.Add(new ServiceDescriptor(typeof(JwtOptions), typeof(JwtOptions), lifetime));
@@ -64,7 +87,7 @@ public static class ServiceExtension {
         options.Events = new JwtBearerEvents {
           OnAuthenticationFailed = context => {
             if (context.Exception.GetType() == typeof(SecurityTokenExpiredException)) {
-              context.Response.Headers.Add("Token-Expired", "true");
+              context.Response.Headers.Append("Token-Expired", "true");
             }
 
             return Task.CompletedTask;
