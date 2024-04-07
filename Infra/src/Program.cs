@@ -62,6 +62,7 @@ builder.Services.AddAccountUseCaseHandlers(ServiceLifetime.Scoped);
 builder.Services.AddCommentUseCaseHandlers(ServiceLifetime.Scoped);
 builder.Services.AddSuperAccountUseCaseHandlers(ServiceLifetime.Scoped);
 builder.Services.AddPostUseCaseHandlers(ServiceLifetime.Scoped);
+builder.Services.AddRateLimiter();
 builder.Services.AddSwagger();
 builder.Services.AddDbContext<MainDbContext>();
 builder.Services.AddEndpointsApiExplorer();
@@ -88,10 +89,11 @@ if (app.Environment.IsDevelopment()) {
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseMiddleware<SessionMiddleware>();
+app.UseRateLimiter();
 
 app.UseHttpsRedirection();
 app.UseCors(x => x.WithOrigins("localhost:3000").AllowCredentials());
 
-app.MapControllers();
+app.MapControllers().RequireRateLimiting("fixed");
 
 app.Run();

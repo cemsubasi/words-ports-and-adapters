@@ -28,6 +28,6 @@ public class CommentController : ControllerBase {
   public async Task<IActionResult> RetrieveAll([FromBody] RetrieveAllCommentsRequest request, CancellationToken cancellationToken) {
     var result = await this.retrieveUseCaseHandler.HandleAsync(request.ToUseCase(), cancellationToken);
 
-    return this.Ok(result.Where(x => x != null).Select(CommentRetrieveResponse.From).ToArray());
+    return this.Ok(result.Select(CommentRetrieveResponse.From).ToArray());
   }
 }

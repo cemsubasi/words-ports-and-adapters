@@ -2,12 +2,12 @@ using System.Security.Cryptography;
 
 namespace Domain.Account.UseCase;
 
+// TODO: Move logic to Authenticator
 public class AccountAuthenticate {
   public string Email { get; set; }
   public string Password { get; set; }
 
-  public AccountAuthenticate()
-  {
+  public AccountAuthenticate() {
 
   }
 

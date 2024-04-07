@@ -57,6 +57,16 @@ public class MainDbContext : DbContext {
     _ = builder.Entity<SuperAccountEntity>().Property(x => x.Password).IsRequired();
     _ = builder.Entity<SuperAccountEntity>().Property(x => x.PasswordSalt).IsRequired();
 
+    _ = builder.Entity<CommentEntity>()
+      .HasOne(x => x.Creator)
+      .WithMany()
+      .HasForeignKey(x => x.CreatedBy);
+
+    _ = builder.Entity<AccountEntity>()
+      .HasOne(x => x.Creator)
+      .WithMany()
+      .HasForeignKey(x => x.CreatedBy);
+
     _ = builder.Entity<PostEntity>()
       .HasOne(x => x.Category)
       .WithMany(x => x.Posts)
