@@ -66,6 +66,7 @@ public static class ServiceExtension {
 
   public static IServiceCollection AddCommentUseCaseHandlers(this IServiceCollection services, ServiceLifetime lifetime) {
     services.Add(new ServiceDescriptor(typeof(CreateCommentUseCaseHandler), typeof(CreateCommentUseCaseHandler), lifetime));
+    services.Add(new ServiceDescriptor(typeof(RetrieveCommentUseCaseHandler), typeof(RetrieveCommentUseCaseHandler), lifetime));
 
     return services;
   }

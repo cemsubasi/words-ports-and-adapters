@@ -1,5 +1,5 @@
-﻿using Domain.Common;
-using Domain.Post;
+﻿using Domain.Post;
+using Domain.Post.UseCase;
 using Infra.Post.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -35,8 +35,8 @@ public class PostController : ControllerBase {
   }
 
   [HttpPost("all")]
-  public async Task<IActionResult> Retrieve(DataRequest request, CancellationToken cancellationToken) {
-    var result = await this.retrieveUseCaseHandler.Handle(request.Build(this.session.Id), cancellationToken);
+  public async Task<IActionResult> Retrieve([FromBody] RetrieveAllPostsRequest request, CancellationToken cancellationToken) {
+    var result = await this.retrieveUseCaseHandler.Handle(request.ToUseCase(this.session.Id), cancellationToken);
 
     return this.Ok(PostRetrieveResponse.From(result));
   }

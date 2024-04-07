@@ -7,5 +7,5 @@ namespace Domain.Post.Port;
 public interface PostPort {
   Task CreateAsync(CreatePost useCase, CancellationToken cancellationToken);
   Task<PostEntity> RetrieveAsync(RetrievePost useCase, CancellationToken cancellationToken);
-  Task<PostEntity[]> RetrieveAllAsync(DataRequest useCase, CancellationToken cancellationToken);
+  Task<PostEntity[]> RetrieveAllAsync(RetrieveAllPosts useCase, CancellationToken cancellationToken);
 }

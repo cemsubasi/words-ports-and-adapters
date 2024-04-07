@@ -16,7 +16,7 @@ public class RetrieveCommentUseCaseHandler {
     return await commentPort.RetrieveAsync(useCase, cancellationToken);
   }
 
-  public async Task<CommentEntity[]> HandleAllAsync(DataRequest useCase, CancellationToken cancellationToken) {
-    return await commentPort.RetrieveAllAsync(useCase, cancellationToken);
+  public async Task<CommentEntity[]> HandleAsync(RetrieveAllComments useCase, CancellationToken cancellationToken) {
+    return await commentPort.RetrieveAsync(useCase, cancellationToken);
   }
 }

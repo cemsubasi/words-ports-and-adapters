@@ -1,7 +1,7 @@
-﻿using Domain.Comment.Entity;
+using Domain.Comment.Entity;
 using Domain.Comment.Port;
 using Domain.Comment.UseCase;
-using Domain.Common;
+using Infra.Comment.Model;
 using Infra.Context;
 using Mapster;
 using Microsoft.EntityFrameworkCore;
@@ -24,8 +24,15 @@ public class CommentAdapter : CommentPort {
     _ = await this.context.SaveChangesAsync(cancellationToken);
   }
 
-  public async Task<CommentEntity[]> RetrieveAllAsync(DataRequest useCase, CancellationToken cancellationToken) {
-    var entities = await this.context.Comments.ToArrayAsync(cancellationToken);
+  public async Task<CommentEntity[]> RetrieveAsync(RetrieveAllComments useCase, CancellationToken cancellationToken) {
+    var entities = await this.context.Comments
+      .Where(x => x.ParentCommentId == useCase.ParentCommentId)
+      .Include(x => x.ParentComment)
+      .Include(x => x.SubComments)
+      .Skip(useCase.Page * useCase.Size)
+      .Take(useCase.Size)
+      .ToArrayAsync(cancellationToken);
+
     return entities;
   }
   public Task<CommentEntity> RetrieveAsync(RetrieveComment useCase, CancellationToken cancellationToken) => throw new NotImplementedException();

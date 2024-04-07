@@ -81,10 +81,10 @@ public class PostAdapter : PostPort {
     return category;
   }
 
-  public async Task<PostEntity[]> RetrieveAllAsync(DataRequest useCase, CancellationToken cancellationToken) {
+  public async Task<PostEntity[]> RetrieveAllAsync(RetrieveAllPosts useCase, CancellationToken cancellationToken) {
     var posts = await this.context.Posts
       .AsNoTrackingWithIdentityResolution()
-      .Where(x => x.AccountId == useCase.OwnerId)
+      .Where(x => x.AccountId == useCase.AccountId)
       .Include(x => x.Comments)
       .ThenInclude(x => x.SubComments)
       .Include(x => x.Account)

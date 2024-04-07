@@ -9,11 +9,15 @@ public class CommentRetrieveResponse {
   public ICollection<CommentRetrieveResponse> SubComments { get; set; }
 
   public static CommentRetrieveResponse From(CommentEntity entity) {
+    if (entity is null) {
+      return null;
+    }
+
     return new CommentRetrieveResponse {
       PostId = entity.PostId,
       Id = entity.Id,
       Value = entity.Comment,
-      SubComments = entity.SubComments.Select(subCommentEntity => CommentRetrieveResponse.From(subCommentEntity)).ToArray(),
+      SubComments = entity.SubComments?.Select(subCommentEntity => CommentRetrieveResponse.From(subCommentEntity)).ToArray() ?? Array.Empty<CommentRetrieveResponse>(),
     };
   }
 

@@ -9,9 +9,11 @@ namespace Infra.Comment.Controller;
 [Route("[controller]")]
 public class CommentController : ControllerBase {
   readonly CreateCommentUseCaseHandler createUseCaseHandler;
+  readonly RetrieveCommentUseCaseHandler retrieveUseCaseHandler;
 
-  public CommentController(CreateCommentUseCaseHandler createUseCaseHandler) {
+  public CommentController(CreateCommentUseCaseHandler createUseCaseHandler, RetrieveCommentUseCaseHandler retrieveUseCaseHandler) {
     this.createUseCaseHandler = createUseCaseHandler;
+    this.retrieveUseCaseHandler = retrieveUseCaseHandler;
   }
 
   [HttpPost]
@@ -20,5 +22,12 @@ public class CommentController : ControllerBase {
     await this.createUseCaseHandler.Handle(request.ToUseCase(), cancellationToken);
 
     return this.NoContent();
+  }
+
+  [HttpPost("all")]
+  public async Task<IActionResult> RetrieveAll([FromBody] RetrieveAllCommentsRequest request, CancellationToken cancellationToken) {
+    var result = await this.retrieveUseCaseHandler.HandleAsync(request.ToUseCase(), cancellationToken);
+
+    return this.Ok(result.Where(x => x != null).Select(CommentRetrieveResponse.From).ToArray());
   }
 }
