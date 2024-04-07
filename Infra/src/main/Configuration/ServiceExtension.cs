@@ -1,4 +1,5 @@
-﻿using Domain.Account;
+﻿using System.Threading.RateLimiting;
+using Domain.Account;
 using Domain.Account.Port;
 using Domain.Comment;
 using Domain.Comment.Port;
@@ -6,16 +7,12 @@ using Domain.Post;
 using Domain.Post.Port;
 using Domain.SuperAccount;
 using Domain.SuperAccount.Port;
-using FluentValidation;
-using Infra;
 using Infra.Account;
-using Infra.Account.Validator;
 using Infra.Comment.Adapter;
-using Infra.Controllers.Account;
 using Infra.Post.Adapter;
-using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
@@ -76,6 +73,18 @@ public static class ServiceExtension {
     services.Add(new ServiceDescriptor(typeof(JwtOptions), typeof(JwtOptions), lifetime));
     services.Add(new ServiceDescriptor(typeof(SentryOptions), typeof(SentryOptions), lifetime));
     services.Add(new ServiceDescriptor(typeof(DBOptions), typeof(DBOptions), lifetime));
+
+    return services;
+  }
+
+  public static IServiceCollection AddRateLimiter(this IServiceCollection services) {
+    services.AddRateLimiter(_ => _
+      .AddFixedWindowLimiter(policyName: "fixed", options => {
+        options.PermitLimit = 4;
+        options.Window = TimeSpan.FromSeconds(10);
+        options.QueueProcessingOrder = QueueProcessingOrder.OldestFirst;
+        options.QueueLimit = 2;
+      }));
 
     return services;
   }
