@@ -8,8 +8,8 @@ public class CommentEntity {
   public PostEntity Post { get; set; }
   public Guid? ParentCommentId { get; set; }
   public CommentEntity ParentComment { get; set; }
-  public ICollection<CommentEntity> SubComments { get; set; }
+  public List<CommentEntity> SubComments { get; set; } = new();
   public string Comment { get; set; }
   public DateTimeOffset CreatedAt { get; set; }
-  public string CreatedBy { get; set; }
+  public Guid? CreatedBy { get; set; }
 }

@@ -10,7 +10,7 @@ public class PostEntity {
   public virtual AccountEntity Account { get; set; }
   public Guid CategoryId { get; set; }
   public virtual CategoryEntity Category { get; set; }
-  public virtual ICollection<CommentEntity> Comments { get; set; }
+  public virtual List<CommentEntity> Comments { get; set; } = new();
   public string Thumbnail { get; set; }
   public string Url { get; set; }
   public string Header { get; set; }

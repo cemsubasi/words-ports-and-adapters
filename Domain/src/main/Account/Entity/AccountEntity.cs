@@ -9,5 +9,5 @@ public class AccountEntity {
   public string Phone { get; set; }
   public string Password { get; set; }
   public string PasswordSalt { get; set; }
-  public ICollection<PostEntity> Posts { get; set; }
+  public List<PostEntity> Posts { get; set; } = new();
 }

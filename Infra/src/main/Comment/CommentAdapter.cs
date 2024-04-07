@@ -35,5 +35,6 @@ public class CommentAdapter : CommentPort {
 
     return entities;
   }
+
   public Task<CommentEntity> RetrieveAsync(RetrieveComment useCase, CancellationToken cancellationToken) => throw new NotImplementedException();
 }
