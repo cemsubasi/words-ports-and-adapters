@@ -17,12 +17,12 @@ public class AccountEntity {
   public virtual AccountEntity Creator { get; private set; }
 
   protected AccountEntity(Guid id, string name, string email, string phone, string password, string passwordSalt, Guid? createdBy = null) {
-    Id = id;
-    Name = name;
-    Email = email;
-    Phone = phone;
-    Password = password;
-    PasswordSalt = passwordSalt;
+    this.Id = id;
+    this.Name = name;
+    this.Email = email;
+    this.Phone = phone;
+    this.Password = password;
+    this.PasswordSalt = passwordSalt;
     this.CreatedAt = DateTimeOffset.UtcNow;
     this.UpdatedAt = DateTimeOffset.UtcNow;
     this.CreatedBy = createdBy;

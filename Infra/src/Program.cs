@@ -42,7 +42,6 @@ CommentMapper.Map(config);
 
 builder.Services.AddControllers(options => {
   options.Filters.Add<HttpResponseExceptionFilter>();
-  /* options.Filters.Add<CustomExceptionFilter>(); */
 });
 
 builder.Services.AddControllers()
@@ -86,13 +85,13 @@ if (app.Environment.IsDevelopment()) {
   });
 }
 
+app.UseRateLimiter();
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseMiddleware<SessionMiddleware>();
-app.UseRateLimiter();
 
 app.UseHttpsRedirection();
-app.UseCors(x => x.WithOrigins("localhost:3000").AllowCredentials());
+app.UseCors(x => x.WithOrigins(app.Environment.IsDevelopment() ? "localhost:3000" : "localx.host").AllowCredentials());
 
 app.MapControllers().RequireRateLimiting("fixed");
 
