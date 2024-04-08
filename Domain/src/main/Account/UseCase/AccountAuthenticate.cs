@@ -20,9 +20,9 @@ public class AccountAuthenticate {
     return new AccountAuthenticate(email, password);
   }
 
-  public string GenerateHash(string password, string passwordSalt) {
+  public static string GenerateHash(string password, string passwordSalt) {
     byte[] data = System.Text.Encoding.UTF8.GetBytes(password + passwordSalt);
-    byte[] hash = SHA256.Create().ComputeHash(data);
+    byte[] hash = SHA256.HashData(data);
     var result = Convert.ToBase64String(hash);
 
     return result;

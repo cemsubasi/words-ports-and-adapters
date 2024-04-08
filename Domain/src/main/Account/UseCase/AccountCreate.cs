@@ -9,7 +9,7 @@ public class AccountCreate {
     this.Name = name;
     this.Email = email;
     this.Phone = phone;
-    this.PasswordSalt = this.GenerateSalt();
+    this.PasswordSalt = GenerateSalt();
     this.Password = GenerateHash(password, this.PasswordSalt);
   }
 
@@ -24,10 +24,10 @@ public class AccountCreate {
     return new AccountCreate(name, email, phone, password);
   }
 
-  public string GenerateSalt(int digit = 8) {
+  public static string GenerateSalt(int digit = 8) {
     var hash = string.Empty;
 
-    for (int i = 0; i < digit; i++) {
+    for (var i = 0; i < digit; i++) {
       var rnd = Random.Shared.Next(0, letters.Length);
       hash += letters.AsEnumerable().ElementAt(rnd);
     }
@@ -35,9 +35,9 @@ public class AccountCreate {
     return hash;
   }
 
-  public string GenerateHash(string password, string passwordSalt) {
+  public static string GenerateHash(string password, string passwordSalt) {
     byte[] data = System.Text.Encoding.UTF8.GetBytes(password + passwordSalt);
-    byte[] hash = SHA256.Create().ComputeHash(data);
+    byte[] hash = SHA256.HashData(data);
     var result = Convert.ToBase64String(hash);
 
     return result;

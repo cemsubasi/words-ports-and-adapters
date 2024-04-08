@@ -10,7 +10,7 @@
       "request": "launch",
       "preLaunchTask": "build",
       // If you have changed target frameworks, make sure to update the program path.
-      "program": "${workspaceFolder}/Infra/bin/Debug/net6.0/Infra.dll",
+      "program": "${workspaceFolder}/Infra/bin/Debug/net8.0/Infra.dll",
       "args": [],
       "cwd": "${workspaceFolder}/Infra",
       "stopAtEntry": false,
@@ -37,7 +37,7 @@
       "request": "launch",
       "preLaunchTask": "build-infra",
       // If you have changed target frameworks, make sure to update the program path.
-      "program": "${workspaceFolder}/Infra/bin/Debug/net6.0/Infra.dll",
+      "program": "${workspaceFolder}/Infra/bin/Debug/net8.0/Infra.dll",
       "args": [],
       "cwd": "${workspaceFolder}/Infra",
       // For more information about the 'console' field, see https://github.com/OmniSharp/omnisharp-vscode/blob/master/debugger-launchjson.md#console-terminal-window

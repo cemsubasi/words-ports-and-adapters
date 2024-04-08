@@ -4,22 +4,23 @@ using Domain.Comment.Entity;
 
 namespace Domain.Post.Entity;
 
-public class PostEntity {
+public sealed class PostEntity {
   public Guid Id { get; private set; }
   public Guid AccountId { get; private set; }
-  public virtual AccountEntity Account { get; private set; }
+  public AccountEntity Account { get; private set; }
   public Guid CategoryId { get; private set; }
-  public virtual CategoryEntity Category { get; private set; }
-  public virtual List<CommentEntity> Comments { get; private set; } = new();
+  public CategoryEntity Category { get; private set; }
+  public List<CommentEntity> Comments { get; private set; } = [];
   public string Thumbnail { get; private set; }
   public string Url { get; private set; }
   public string Header { get; private set; }
   public string Body { get; private set; }
   public bool IsFeatured { get; private set; }
-  public DateTimeOffset CreatedAt { get; private set; }
-  public DateTimeOffset UpdatedAt { get; private set; }
+  public DateTime CreatedAt { get; private set; }
+  public DateTime? UpdatedAt { get; private set; }
+  public DateTime? DeletedAt { get; private set; }
 
-  protected PostEntity(Guid id, Guid accountId, Guid categoryId, string thumbnail, string url, string header, string body, bool isFeatured) {
+  private PostEntity(Guid id, Guid accountId, Guid categoryId, string thumbnail, string url, string header, string body, bool isFeatured) {
     this.Id = id;
     this.AccountId = accountId;
     this.CategoryId = categoryId;

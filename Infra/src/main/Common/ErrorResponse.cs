@@ -21,11 +21,7 @@ public class ErrorResponse {
        StackTrace: {this.StackTrace}");
   }
 
-  public class InnerResponse {
-    public InnerResponse(Exception innerException) {
-      this.Message = innerException.Message;
-    }
-
-    public string Message { get; set; }
+  public class InnerResponse(Exception innerException) {
+    public string Message { get; set; } = innerException.Message;
   }
 }

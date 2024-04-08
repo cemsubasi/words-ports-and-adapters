@@ -1,22 +1,19 @@
-﻿using Domain.Category.Entity;
-using Domain.Common;
+﻿using Domain.Category.Port;
 using Domain.Post.Entity;
 using Domain.Post.Port;
 using Domain.Post.UseCase;
+using Infra.Account;
 using Infra.Context;
-using Mapster;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infra.Post.Adapter;
 
-public class PostAdapter : PostPort {
-  private readonly MainDbContext context;
-  public PostAdapter(MainDbContext context) {
-    this.context = context;
-  }
+public class PostAdapter(MainDbContext context, CategoryPort categoryPort) : PostPort {
+  private readonly MainDbContext context = context;
+  private readonly CategoryPort categoryPort = categoryPort;
 
   public async Task CreateAsync(CreatePost useCase, CancellationToken cancellationToken) {
-    var category = await FindOrCreateCategoryAsync(useCase.CategoryName, cancellationToken);
+    var category = await this.categoryPort.FindOrCreateCategoryAsync(useCase.CategoryName, cancellationToken);
 
     var postEntity = PostEntity.Create(
       id: Guid.NewGuid(),
@@ -31,23 +28,6 @@ public class PostAdapter : PostPort {
 
     await this.context.Posts.AddAsync(postEntity, cancellationToken);
     await this.context.SaveChangesAsync(cancellationToken);
-  }
-
-  private async Task<CategoryEntity> FindOrCreateCategoryAsync(string categoryName, CancellationToken cancellationToken) {
-    var category = await this.context.Categories
-        .AsNoTracking()
-        .SingleOrDefaultAsync(x => x.Category == categoryName, cancellationToken);
-
-    if (category is null) {
-      category = CategoryEntity.Create(
-        id: Guid.NewGuid(),
-        category: categoryName);
-
-      await this.context.Categories.AddAsync(category, cancellationToken);
-      await this.context.SaveChangesAsync(cancellationToken);
-    }
-
-    return category;
   }
 
   public async Task<PostEntity[]> RetrieveAllAsync(RetrieveAllPosts useCase, CancellationToken cancellationToken) {
@@ -69,7 +49,11 @@ public class PostAdapter : PostPort {
     var post = await this.context.Posts
       .Where(x => x.AccountId == useCase.AccountId && x.Id == useCase.Id)
       .Include(x => x.Comments)
+      .ThenInclude(x => x.SubComments)
+      .Include(x => x.Category)
       .SingleOrDefaultAsync(cancellationToken);
+
+    PostNotFoundException.ThrowIfNull(post);
 
     return post;
   }

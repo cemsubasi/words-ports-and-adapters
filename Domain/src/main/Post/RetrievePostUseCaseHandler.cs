@@ -5,10 +5,8 @@ using Domain.Post.UseCase;
 
 namespace Domain.Post;
 
-public class RetrievePostUseCaseHandler {
-  private readonly PostPort postPort;
-
-  public RetrievePostUseCaseHandler(PostPort postPort) => this.postPort = postPort;
+public class RetrievePostUseCaseHandler(PostPort postPort) {
+  private readonly PostPort postPort = postPort;
 
   public async Task<PostEntity> Handle(RetrievePost useCase, CancellationToken cancellationToken) {
     var result = await this.postPort.RetrieveAsync(useCase, cancellationToken);

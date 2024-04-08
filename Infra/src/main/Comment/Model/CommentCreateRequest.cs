@@ -9,6 +9,6 @@ public class CommentCreateRequest {
   public Guid AccountId { get; set; }
 
   public CreateComment ToUseCase() {
-    return CreateComment.Build(AccountId, PostId, ParentCommentId, Comment);
+    return CreateComment.Build(this.AccountId, this.PostId, this.ParentCommentId, this.Comment);
   }
 }

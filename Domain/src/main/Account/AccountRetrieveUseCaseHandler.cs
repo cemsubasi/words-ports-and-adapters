@@ -5,18 +5,14 @@ using Domain.Common;
 
 namespace Domain.Account;
 
-public class AccountRetrieveUseCaseHandler {
-  private readonly AccountPort accountPort;
-
-  public AccountRetrieveUseCaseHandler(AccountPort accountPort) {
-    this.accountPort = accountPort;
-  }
+public class AccountRetrieveUseCaseHandler(AccountPort accountPort) {
+  private readonly AccountPort accountPort = accountPort;
 
   public async Task<AccountEntity> Handle(AccountRetrieve accountRetrieve, CancellationToken cancellationToken) {
-    return await accountPort.Retrieve(accountRetrieve, cancellationToken);
+    return await this.accountPort.Retrieve(accountRetrieve, cancellationToken);
   }
 
   public async Task<AccountEntity[]> Handle(DataRequest accountRetrieve, CancellationToken cancellationToken) {
-    return await accountPort.Retrieve(accountRetrieve, cancellationToken);
+    return await this.accountPort.Retrieve(accountRetrieve, cancellationToken);
   }
 }

@@ -8,10 +8,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infra.Comment.Adapter;
 
-public class CommentAdapter : CommentPort {
-  readonly MainDbContext context;
-
-  public CommentAdapter(MainDbContext context) => this.context = context;
+public class CommentAdapter(MainDbContext context) : CommentPort {
+  readonly MainDbContext context = context;
 
   public async Task CreateAsync(CreateComment useCase, CancellationToken cancellationToken) {
     var entity = CommentEntity.Create(

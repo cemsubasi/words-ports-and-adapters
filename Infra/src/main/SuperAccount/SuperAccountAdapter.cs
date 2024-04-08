@@ -13,14 +13,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infra.Account;
 
-public class SuperAccountAdapter : SuperAccountPort {
-  private readonly MainDbContext context;
-  private readonly IJwtProvider jwtProvider;
-
-  public SuperAccountAdapter(MainDbContext context, IJwtProvider jwtProvider) {
-    this.context = context;
-    this.jwtProvider = jwtProvider;
-  }
+public class SuperAccountAdapter(MainDbContext context, IJwtProvider jwtProvider) : SuperAccountPort {
+  private readonly MainDbContext context = context;
+  private readonly IJwtProvider jwtProvider = jwtProvider;
 
   public async Task<(string, long)> Authenticate(SuperAccountAuthenticate accountAuthenticate, CancellationToken cancellationToken) {
     var user = await this.context.SuperAccounts
@@ -29,7 +24,7 @@ public class SuperAccountAdapter : SuperAccountPort {
 
     AccountNotFoundException.ThrowIfNull(user);
 
-    var generatedPassword = accountAuthenticate.GenerateHash(accountAuthenticate.Password, user.PasswordSalt);
+    var generatedPassword = Domain.Account.UseCase.AccountAuthenticate.GenerateHash(accountAuthenticate.Password, user.PasswordSalt);
 
     AccountNotFoundException.ThrowIfFalse(generatedPassword == user.Password);
 

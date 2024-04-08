@@ -1,10 +1,10 @@
 namespace Infra.Account;
 
 public class AccountAuthenticationResponse {
-  public string Token { get; set; }
-  public long ExpireInMinutes { get; set; }
+  public string Token { get; private set; }
+  public long ExpireInMinutes { get; private set; }
 
-  public AccountAuthenticationResponse(string token, long expireInMinutes) {
+  private AccountAuthenticationResponse(string token, long expireInMinutes) {
     this.Token = token;
     this.ExpireInMinutes = expireInMinutes;
   }

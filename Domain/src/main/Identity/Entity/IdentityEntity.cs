@@ -2,7 +2,7 @@
 
 namespace Domain.Identity.Entity;
 
-public class IdentityEntity {
+public sealed class IdentityEntity {
   public uint Id { get; set; }
 
   public string InetAddress { get; set; }
@@ -19,5 +19,5 @@ public class IdentityEntity {
 
   public Guid? AccountId { get; set; }
 
-  public virtual AccountEntity Account { get; set; }
+  public AccountEntity Account { get; set; }
 }

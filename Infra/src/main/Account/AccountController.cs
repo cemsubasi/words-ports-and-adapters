@@ -55,7 +55,7 @@ public class AccountController : ControllerBase {
   public async Task<IActionResult> Authenticate([FromBody] AccountAuthenticationRequest accountAuthenticationRequest, CancellationToken cancellationToken) {
     var authenticateAccount = await this.accountAuthenticateUseCaseHandler.Handle(accountAuthenticationRequest.ToUseCase(), cancellationToken);
 
-    HttpContext.Response.Headers.Authorization = "Bearer " + authenticateAccount.Item1;
+    this.HttpContext.Response.Headers.Authorization = "Bearer " + authenticateAccount.Item1;
     return this.Ok(AccountAuthenticationResponse.From(authenticateAccount.Item1, authenticateAccount.Item2));
   }
 }

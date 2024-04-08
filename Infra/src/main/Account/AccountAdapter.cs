@@ -13,14 +13,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infra.Account;
 
-public class AccountAdapter : AccountPort {
-  private readonly MainDbContext context;
-  private readonly IJwtProvider jwtProvider;
-
-  public AccountAdapter(MainDbContext context, IJwtProvider jwtProvider) {
-    this.context = context;
-    this.jwtProvider = jwtProvider;
-  }
+public class AccountAdapter(MainDbContext context, IJwtProvider jwtProvider) : AccountPort {
+  private readonly MainDbContext context = context;
+  private readonly IJwtProvider jwtProvider = jwtProvider;
 
   public async Task<(string, long)> Authenticate(AccountAuthenticate accountAuthenticate, CancellationToken cancellationToken) {
     var user = await this.context.Accounts
@@ -29,7 +24,7 @@ public class AccountAdapter : AccountPort {
 
     AccountNotFoundException.ThrowIfNull(user);
 
-    var generatedPassword = accountAuthenticate.GenerateHash(accountAuthenticate.Password, user.PasswordSalt);
+    var generatedPassword = AccountAuthenticate.GenerateHash(accountAuthenticate.Password, user.PasswordSalt);
 
     AccountNotFoundException.ThrowIfFalse(generatedPassword == user.Password);
 

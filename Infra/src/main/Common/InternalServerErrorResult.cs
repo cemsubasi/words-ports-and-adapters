@@ -5,9 +5,6 @@ using Microsoft.AspNetCore.Mvc.Infrastructure;
 
 namespace Infra;
 
-public class InternalServerErrorResult : StatusCodeResult {
-  public ErrorResponse Errors { get; set; }
-  public InternalServerErrorResult(ErrorResponse errorResponse) : base(500) {
-    this.Errors = errorResponse;
-  }
+public class InternalServerErrorResult(ErrorResponse errorResponse) : StatusCodeResult(500) {
+  public ErrorResponse Errors { get; set; } = errorResponse;
 }

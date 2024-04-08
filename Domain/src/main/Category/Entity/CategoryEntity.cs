@@ -2,14 +2,14 @@
 
 namespace Domain.Category.Entity;
 
-public class CategoryEntity {
+public sealed class CategoryEntity {
   public Guid Id { get; set; }
-  public virtual List<PostEntity> Posts { get; set; } = new();
+  public List<PostEntity> Posts { get; set; } = [];
   public string Category { get; set; }
 
-  protected CategoryEntity(Guid id, string category) {
-    Id = id;
-    Category = category;
+  private CategoryEntity(Guid id, string category) {
+    this.Id = id;
+    this.Category = category;
   }
 
   public static CategoryEntity Create(Guid id, string category) {

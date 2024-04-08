@@ -1,22 +1,17 @@
 ﻿using Domain.Comment.Entity;
 using Domain.Comment.Port;
 using Domain.Comment.UseCase;
-using Domain.Common;
 
 namespace Domain.Comment;
 
-public class RetrieveCommentUseCaseHandler {
-  readonly CommentPort commentPort;
-
-  public RetrieveCommentUseCaseHandler(CommentPort commentPort) {
-    this.commentPort = commentPort;
-  }
+public class RetrieveCommentUseCaseHandler(CommentPort commentPort) {
+  readonly CommentPort commentPort = commentPort;
 
   public async Task<CommentEntity> HandleAsync(RetrieveComment useCase, CancellationToken cancellationToken) {
-    return await commentPort.RetrieveAsync(useCase, cancellationToken);
+    return await this.commentPort.RetrieveAsync(useCase, cancellationToken);
   }
 
   public async Task<CommentEntity[]> HandleAsync(RetrieveAllComments useCase, CancellationToken cancellationToken) {
-    return await commentPort.RetrieveAsync(useCase, cancellationToken);
+    return await this.commentPort.RetrieveAsync(useCase, cancellationToken);
   }
 }

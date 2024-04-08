@@ -14,14 +14,12 @@ namespace Infra.Controllers;
 [Authorize(Policy = nameof(SuperAccountEntity))]
 [Route("[controller]")]
 public class SuperAccountController : ControllerBase {
-  private readonly ILogger<AccountController> _logger;
   private readonly SuperAccountCreateUseCaseHandler accountCreateUseCaseHandler;
   private readonly SuperAccountRetrieveUseCaseHandler accountRetrieveUseCaseHandler;
   private readonly SuperAccountAuthenticateUseCaseHandler accountAuthenticateUseCaseHandler;
   private readonly IUserSession session;
 
-  public SuperAccountController(ILogger<AccountController> logger, SuperAccountCreateUseCaseHandler accountCreateUseCaseHandler, SuperAccountRetrieveUseCaseHandler accountRetrieveUseCaseHandler, SuperAccountAuthenticateUseCaseHandler accountAuthenticateUseCaseHandler, IUserSession session) {
-    _logger = logger;
+  public SuperAccountController(SuperAccountCreateUseCaseHandler accountCreateUseCaseHandler, SuperAccountRetrieveUseCaseHandler accountRetrieveUseCaseHandler, SuperAccountAuthenticateUseCaseHandler accountAuthenticateUseCaseHandler, IUserSession session) {
     this.accountCreateUseCaseHandler = accountCreateUseCaseHandler;
     this.accountRetrieveUseCaseHandler = accountRetrieveUseCaseHandler;
     this.accountAuthenticateUseCaseHandler = accountAuthenticateUseCaseHandler;
@@ -54,7 +52,7 @@ public class SuperAccountController : ControllerBase {
   public async Task<IActionResult> Authenticate([FromBody] SuperAccountAuthenticationRequest accountAuthenticationRequest, CancellationToken cancellationToken) {
     var authenticateAccount = await this.accountAuthenticateUseCaseHandler.Handle(accountAuthenticationRequest.ToUseCase(), cancellationToken);
 
-    HttpContext.Response.Headers.Authorization = "Bearer " + authenticateAccount.Item1;
+    this.HttpContext.Response.Headers.Authorization = "Bearer " + authenticateAccount.Item1;
     return this.Ok(SuperAccountAuthenticationResponse.From(authenticateAccount.Item1, authenticateAccount.Item2));
   }
 }

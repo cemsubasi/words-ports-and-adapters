@@ -6,7 +6,7 @@ public class CommentRetrieveResponse {
   public Guid PostId { get; set; }
   public Guid Id { get; set; }
   public string Value { get; set; }
-  public List<CommentRetrieveResponse> SubComments { get; set; } = new();
+  public List<CommentRetrieveResponse> SubComments { get; set; } = [];
 
   public static CommentRetrieveResponse From(CommentEntity entity) {
     return new CommentRetrieveResponse {

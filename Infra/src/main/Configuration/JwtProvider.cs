@@ -8,25 +8,21 @@ using Serilog;
 
 namespace Infra.Configurations;
 
-public class JwtProvider : IJwtProvider {
-  private readonly JwtOptions options;
+public class JwtProvider(IOptions<JwtOptions> options) : IJwtProvider {
+  private readonly JwtOptions options = options.Value;
   private DateTimeOffset expireTimeOffset => DateTimeOffset.UtcNow.AddDays(7);
   private DateTime notBeforeTime => DateTimeOffset.UtcNow.DateTime;
 
-  public JwtProvider(IOptions<JwtOptions> options) {
-    this.options = options.Value;
-  }
-
   public (string, long) Generate(Guid id, Claim[] claims = null) {
     var expireAt = this.expireTimeOffset.ToUnixTimeMilliseconds();
-    var signinCredentials = new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(options.SecretKey)), SecurityAlgorithms.HmacSha512);
+    var signinCredentials = new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(this.options.SecretKey)), SecurityAlgorithms.HmacSha512);
 
     var token = new JwtSecurityToken(
-      options.Issuer,
-      options.Audience,
+      this.options.Issuer,
+      this.options.Audience,
       claims,
-      notBeforeTime,
-      expireTimeOffset.LocalDateTime,
+      this.notBeforeTime,
+      this.expireTimeOffset.LocalDateTime,
       signinCredentials);
     var tokenHandler = new JwtSecurityTokenHandler();
     var tokenValue = tokenHandler.WriteToken(token);
@@ -50,5 +46,4 @@ public class JwtProvider : IJwtProvider {
       IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey))
     };
   }
-
 }

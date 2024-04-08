@@ -4,9 +4,6 @@ using Domain.Account.UseCase;
 namespace Domain.SuperAccount.UseCase;
 
 public class SuperAccountAuthenticate : AccountAuthenticate {
-  public SuperAccountAuthenticate() : base() {
-  }
-
   private SuperAccountAuthenticate(string email, string password) {
     this.Email = email;
     this.Password = password;

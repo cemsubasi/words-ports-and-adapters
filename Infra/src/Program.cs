@@ -25,7 +25,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 var configurationBuilder = new ConfigurationBuilder()
   .AddCommandLine(args)
-  .AddJsonFile($"config.json");
+  .AddJsonFile("config.json");
 
 if (!string.IsNullOrEmpty(configuration["environment"])) {
   configurationBuilder.AddJsonFile($"config.{configuration["environment"]}.json");

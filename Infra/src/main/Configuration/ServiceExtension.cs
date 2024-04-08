@@ -1,6 +1,7 @@
 ﻿using System.Threading.RateLimiting;
 using Domain.Account;
 using Domain.Account.Port;
+using Domain.Category.Port;
 using Domain.Comment;
 using Domain.Comment.Port;
 using Domain.Post;
@@ -8,6 +9,7 @@ using Domain.Post.Port;
 using Domain.SuperAccount;
 using Domain.SuperAccount.Port;
 using Infra.Account;
+using Infra.Category.Adapter;
 using Infra.Comment.Adapter;
 using Infra.Post.Adapter;
 using Microsoft.AspNetCore.Authentication;
@@ -25,6 +27,7 @@ public static class ServiceExtension {
     services.Add(new ServiceDescriptor(typeof(SuperAccountPort), typeof(SuperAccountAdapter), lifetime));
     services.Add(new ServiceDescriptor(typeof(PostPort), typeof(PostAdapter), lifetime));
     services.Add(new ServiceDescriptor(typeof(CommentPort), typeof(CommentAdapter), lifetime));
+    services.Add(new ServiceDescriptor(typeof(CategoryPort), typeof(CategoryAdapter), lifetime));
 
     return services;
   }

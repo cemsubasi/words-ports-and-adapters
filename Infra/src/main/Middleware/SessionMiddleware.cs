@@ -8,9 +8,8 @@ using Serilog;
 
 namespace Infra.Middlewares;
 
-public class SessionMiddleware {
-  private readonly RequestDelegate next;
-  public SessionMiddleware(RequestDelegate next) => this.next = next;
+public class SessionMiddleware(RequestDelegate next) {
+  private readonly RequestDelegate next = next;
 
   public async Task InvokeAsync(HttpContext context, IUserSession session) {
     /* var userAgent = context.Request.Headers["User-Agent"].ToString(); */
@@ -54,6 +53,6 @@ public class SessionMiddleware {
       session.Id = userId;
     }
 
-    await next.Invoke(context);
+    await this.next.Invoke(context);
   }
 }
