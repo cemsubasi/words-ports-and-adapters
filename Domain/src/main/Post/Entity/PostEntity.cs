@@ -29,8 +29,8 @@ public sealed class PostEntity {
     this.Header = header;
     this.Body = body;
     this.IsFeatured = isFeatured;
-    this.CreatedAt = DateTimeOffset.UtcNow;
-    this.UpdatedAt = DateTimeOffset.UtcNow;
+    this.CreatedAt = DateTime.UtcNow;
+    this.UpdatedAt = DateTime.UtcNow;
   }
 
   public static PostEntity Create(

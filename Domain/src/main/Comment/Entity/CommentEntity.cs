@@ -20,7 +20,7 @@ public sealed class CommentEntity {
     this.PostId = postId;
     this.ParentCommentId = parentCommentId;
     this.Comment = comment;
-    this.CreatedAt = DateTimeOffset.UtcNow;
+    this.CreatedAt = DateTime.UtcNow;
     this.CreatedBy = createdBy;
   }
 

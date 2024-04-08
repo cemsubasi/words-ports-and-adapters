@@ -25,8 +25,8 @@ public class AccountEntity {
     this.Phone = phone;
     this.Password = password;
     this.PasswordSalt = passwordSalt;
-    this.CreatedAt = DateTimeOffset.UtcNow;
-    this.UpdatedAt = DateTimeOffset.UtcNow;
+    this.CreatedAt = DateTime.UtcNow;
+    this.UpdatedAt = DateTime.UtcNow;
     this.CreatedBy = createdBy;
   }
 

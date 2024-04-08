@@ -10,8 +10,8 @@ public class PostRetrieveResponse {
   public string Body { get; set; }
   public string Thumbnail { get; set; }
   public string Category { get; set; }
-  public long CreatedAt { get; set; }
-  public long UpdatedAt { get; set; }
+  public DateTime CreatedAt { get; set; }
+  public DateTime? UpdatedAt { get; set; }
   public ICollection<CommentRetrieveResponse> Comments { get; set; }
 
   public static PostRetrieveResponse From(PostEntity entity) {
@@ -21,8 +21,8 @@ public class PostRetrieveResponse {
       Header = entity.Header,
       Body = entity.Body,
       Thumbnail = entity.Thumbnail,
-      CreatedAt = entity.CreatedAt.ToUnixTimeSeconds(),
-      UpdatedAt = entity.UpdatedAt.ToUnixTimeSeconds(),
+      CreatedAt = entity.CreatedAt,
+      UpdatedAt = entity.UpdatedAt,
       Comments = entity.Comments.Where(x => !x.ParentCommentId.HasValue).Select(commentEntity => CommentRetrieveResponse.From(commentEntity)).ToArray(),
       Category = entity.Category.Category,
     };
