@@ -1,6 +1,7 @@
 ﻿using Domain.Account.Entity;
 using Domain.Category.Entity;
 using Domain.Comment.Entity;
+using Domain.File.Entity;
 using Domain.Post.Entity;
 using Domain.SuperAccount.Entity;
 using Infra.Configurations;
@@ -93,4 +94,5 @@ public class MainDbContext : DbContext {
   public virtual DbSet<PostEntity> Posts { get; set; }
   public virtual DbSet<CommentEntity> Comments { get; set; }
   public virtual DbSet<CategoryEntity> Categories { get; set; }
+  public virtual DbSet<FileEntity> Files { get; set; }
 }

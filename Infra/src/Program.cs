@@ -59,6 +59,7 @@ builder.Services.AddAccountUseCaseHandlers(ServiceLifetime.Scoped);
 builder.Services.AddCommentUseCaseHandlers(ServiceLifetime.Scoped);
 builder.Services.AddSuperAccountUseCaseHandlers(ServiceLifetime.Scoped);
 builder.Services.AddPostUseCaseHandlers(ServiceLifetime.Scoped);
+builder.Services.AddFileUseCaseHandlers(ServiceLifetime.Scoped);
 builder.Services.AddRateLimiter();
 builder.Services.AddSwagger();
 builder.Services.AddDbContext<MainDbContext>();
