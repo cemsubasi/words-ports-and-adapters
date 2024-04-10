@@ -3,7 +3,7 @@ using Domain.File.UseCase;
 
 namespace Infra.File.Model;
 
-public class FileUploadRequestModel {
+public class FileUploadRequest {
     public IFormFile File { get; set; }
 
     public bool IsVisible { get; set; }

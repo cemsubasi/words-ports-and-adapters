@@ -6,9 +6,11 @@ using Infra.Comment;
 using Infra.Configurations;
 using Infra.Context;
 using Infra.Filters;
+using Infra.Health;
 using Infra.Middlewares;
 using Infra.Post;
 using Mapster;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting.Server;
 using Serilog;
 using Serilog.Events;
@@ -61,6 +63,7 @@ builder.Services.AddSuperAccountUseCaseHandlers(ServiceLifetime.Scoped);
 builder.Services.AddPostUseCaseHandlers(ServiceLifetime.Scoped);
 builder.Services.AddFileUseCaseHandlers(ServiceLifetime.Scoped);
 builder.Services.AddRateLimiter();
+builder.Services.AddHealthCheck(ServiceLifetime.Singleton);
 builder.Services.AddSwagger();
 builder.Services.AddDbContext<MainDbContext>();
 builder.Services.AddEndpointsApiExplorer();
@@ -93,5 +96,8 @@ app.UseHttpsRedirection();
 app.UseCors(x => x.WithOrigins(app.Environment.IsDevelopment() ? "localhost:3000" : "localx.host").AllowCredentials());
 
 app.MapControllers().RequireRateLimiting("fixed");
+app.MapHealthChecks("/health", new HealthCheckOptions {
+  ResponseWriter = healthChecker.WriteResponse
+});
 
 app.Run();

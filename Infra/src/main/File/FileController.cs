@@ -1,4 +1,5 @@
 using Domain.File;
+using Domain.File.Model;
 using Domain.File.UseCase;
 using Infra.ass.Operation;
 using Infra.File.Model;
@@ -20,7 +21,7 @@ public class FileController(
     readonly RetrieveFileUseCaseHandler retrieveFileUseCaseHandler = retrieveFileUseCaseHandler;
 
     [HttpPost]
-    public async Task<IActionResult> Create(FileUploadRequestModel model, CancellationToken cancellationToken) {
+    public async Task<IActionResult> Create(FileUploadRequest model, CancellationToken cancellationToken) {
         var fileWriter = new FileWriter();
         var path = await fileWriter.WriteAsync(model.File, cancellationToken);
 
@@ -37,5 +38,12 @@ public class FileController(
         var (file, contentType, fileName) = await fileReader.ReadAsync(result.Path, cancellationToken);
 
         return this.File(file, contentType, fileName);
+    }
+
+    [HttpPost("all")]
+    public async Task<IActionResult> Retrieve([FromBody] RetrieveAllFilesRequest request, CancellationToken cancellationToken) {
+        var result = await this.retrieveFileUseCaseHandler.Handle(request.ToUseCase(this.session.Id), cancellationToken);
+
+        return this.Ok(RetrieveAllFilesResponse.From(result));
     }
 }

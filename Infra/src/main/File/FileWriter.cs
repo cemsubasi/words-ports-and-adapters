@@ -1,9 +1,9 @@
 namespace Infra.File;
 
 public class FileWriter {
+    private const string fileDirectory = "files";
     private string[] PermittedExtensions => [".jpg", ".jpeg", ".png", ".pdf"];
     public async Task<string> WriteAsync(IFormFile formFile, CancellationToken cancellationToken) {
-        var fileDirectory = "files";
         if (!Directory.Exists(fileDirectory)) {
             Directory.CreateDirectory(fileDirectory);
         }

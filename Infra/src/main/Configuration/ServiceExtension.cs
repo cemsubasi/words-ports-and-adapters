@@ -20,6 +20,11 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
+using Infra.Health;
+using Infra.Context;
+
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Infra.Configurations;
 
@@ -151,6 +156,14 @@ public static class ServiceExtension {
         }
       });
     });
+
+    return services;
+  }
+
+
+  public static IServiceCollection AddHealthCheck(this IServiceCollection services, ServiceLifetime lifetime) {
+    services.AddHealthChecks()
+    .AddCheck<MySqlHealthCheck>("MySqlHealthCheck", HealthStatus.Unhealthy, ["mysql"]);
 
     return services;
   }

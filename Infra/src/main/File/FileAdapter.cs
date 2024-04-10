@@ -37,4 +37,14 @@ public class FileAdapter(MainDbContext context) : FilePort {
 
         return fileEntity;
     }
+
+    public async Task<FileEntity[]> RetrieveAsync(RetrieveAllFiles useCase, CancellationToken cancellationToken) {
+        var fileEntities = await this.context.Files
+          .Where(x => x.AccountId == useCase.AccountId)
+          .Skip(useCase.Size * useCase.Page)
+          .Take(useCase.Size)
+          .ToArrayAsync(cancellationToken);
+
+        return fileEntities;
+    }
 }
