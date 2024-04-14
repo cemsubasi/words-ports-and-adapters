@@ -89,6 +89,7 @@ app.UseRateLimiter();
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseMiddleware<SessionMiddleware>();
+app.UseMiddleware<IdentityMiddleware>();
 
 app.UseHttpsRedirection();
 app.UseCors(x => x.WithOrigins(app.Environment.IsDevelopment() ? "localhost:3000" : "localx.host").AllowCredentials());

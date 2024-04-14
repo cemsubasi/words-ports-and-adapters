@@ -22,9 +22,9 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Infra.Health;
-using Infra.Context;
 
-using Microsoft.Extensions.DependencyInjection;
+using Domain.Identity.Port;
+using Infra.Identity.Adapter;
 
 namespace Infra.Configurations;
 
@@ -37,6 +37,7 @@ public static class ServiceExtension {
     services.Add(new ServiceDescriptor(typeof(CommentPort), typeof(CommentAdapter), lifetime));
     services.Add(new ServiceDescriptor(typeof(CategoryPort), typeof(CategoryAdapter), lifetime));
     services.Add(new ServiceDescriptor(typeof(FilePort), typeof(FileAdapter), lifetime));
+    services.Add(new ServiceDescriptor(typeof(IdentityPort), typeof(IdentityAdapter), lifetime));
 
     return services;
   }

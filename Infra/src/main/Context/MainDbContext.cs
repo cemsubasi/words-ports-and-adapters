@@ -2,6 +2,7 @@
 using Domain.Category.Entity;
 using Domain.Comment.Entity;
 using Domain.File.Entity;
+using Domain.Identity.Entity;
 using Domain.Post.Entity;
 using Domain.SuperAccount.Entity;
 using Infra.Configurations;
@@ -60,6 +61,9 @@ public class MainDbContext : DbContext {
     _ = builder.Entity<SuperAccountEntity>().Property(x => x.Password).IsRequired();
     _ = builder.Entity<SuperAccountEntity>().Property(x => x.PasswordSalt).IsRequired();
 
+    _ = builder.Entity<IdentityEntity>()
+        .Property(x => x.Id).ValueGeneratedOnAdd();
+
     _ = builder.Entity<CommentEntity>()
       .HasOne(x => x.Creator)
       .WithMany()
@@ -97,4 +101,5 @@ public class MainDbContext : DbContext {
   public virtual DbSet<CommentEntity> Comments { get; set; }
   public virtual DbSet<CategoryEntity> Categories { get; set; }
   public virtual DbSet<FileEntity> Files { get; set; }
+  public virtual DbSet<IdentityEntity> Identities { get; set; }
 }

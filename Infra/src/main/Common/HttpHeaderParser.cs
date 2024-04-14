@@ -43,6 +43,32 @@ namespace Infra.Common;
 // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/User-Agent
 // https://hacks.mozilla.org/2013/09/user-agent-detection-history-and-checklist/
 
+/* var userAgent = context.Request.Headers["User-Agent"].ToString(); */
+/* var browser = userAgent.Split(" ")[0]; */
+/* var operatingSystem = userAgent.Split(" ")[1]; */
+/* var device = userAgent.Split(" ")[2]; */
+/* var application = userAgent.Split(" ")[3]; */
+/* var ipAddress = context.Connection.RemoteIpAddress.ToString(); */
+/* var requestPath = context.Request.Path; */
+/* var requestMethod = context.Request.Method; */
+/* var requestQuery = context.Request.QueryString.ToString(); */
+/* var xForwardedFor = context.Request.Headers["X-Forwarded-For"].ToString(); */
+/* var host = context.Request.Host.ToString(); */
+/* var referer = context.Request.Headers["Referer"].ToString(); */
+/* var origin = context.Request.Headers["Origin"].ToString(); */
+
+/* Console.WriteLine($"Request: {requestMethod} {requestPath} {requestQuery}"); */
+/* Console.WriteLine($"User-Agent: {userAgent}"); */
+/* Console.WriteLine($"Browser: {browser}"); */
+/* Console.WriteLine($"Platform: {operatingSystem}"); */
+/* Console.WriteLine($"Device: {device}"); */
+/* Console.WriteLine($"Application: {application}"); */
+/* Console.WriteLine($"IP Address: {ipAddress}"); */
+/* Console.WriteLine($"X-Forwarded-For: {xForwardedFor}"); */
+/* Console.WriteLine($"Host: {host}"); */
+/* Console.WriteLine($"Referer: {referer}"); */
+/* Console.WriteLine($"Origin: {origin}"); */
+
 public class HttpHeaderParser : IParser {
     public T Parse<T>(string value) {
         return JsonSerializer.Deserialize<T>(value);

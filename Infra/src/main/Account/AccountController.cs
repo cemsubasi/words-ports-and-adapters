@@ -43,7 +43,8 @@ public class AccountController : ControllerBase {
   }
 
   [HttpPost("all")]
-  [Authorize(Policy = "SuperAccountEntity")]
+  [AllowAnonymous]
+  // [Authorize(Policy = "SuperAccountEntity")]
   public async Task<IActionResult> RetrieveAccounts([FromBody] DataRequest request, CancellationToken cancellationToken) {
     var accounts = await this.accountRetrieveUseCaseHandler.Handle(request, cancellationToken);
 
