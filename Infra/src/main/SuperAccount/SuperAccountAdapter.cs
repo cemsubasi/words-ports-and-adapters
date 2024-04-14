@@ -1,13 +1,11 @@
-﻿using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
+﻿using System.Security.Claims;
+using System.Security.Cryptography;
 using Domain.Common;
 using Domain.SuperAccount.Entity;
 using Domain.SuperAccount.Port;
 using Domain.SuperAccount.UseCase;
 using Infra.Configurations;
 using Infra.Context;
-
-using Mapster;
 
 using Microsoft.EntityFrameworkCore;
 
@@ -38,12 +36,20 @@ public class SuperAccountAdapter(MainDbContext context, IJwtProvider jwtProvider
   }
 
   public async Task<SuperAccountEntity> CreateAsync(SuperAccountCreate accountCreate, CancellationToken cancellationToken) {
-    var accountEntity = accountCreate.Adapt<SuperAccountEntity>();
+    var accountEntity = SuperAccountEntity.Create(
+      id: Guid.NewGuid(),
+      name: accountCreate.Name,
+      email: accountCreate.Email,
+      phone: accountCreate.Phone,
+      password: accountCreate.Password,
+      passwordSalt: accountCreate.PasswordSalt
+    );
+
     if (accountEntity is null) {
       throw new ArgumentNullException();
     }
 
-    await this.context.SuperAccounts.AddAsync(accountEntity);
+    _ = await this.context.SuperAccounts.AddAsync(accountEntity, cancellationToken);
     var changes = await this.context.SaveChangesAsync(cancellationToken);
 
     if (changes.Equals(0)) {

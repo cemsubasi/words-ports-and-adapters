@@ -11,11 +11,11 @@ public sealed class IdentityEntity {
 
   public string Language { get; set; }
 
-  public string Device { get; set; }
+  // public string Device { get; set; }
 
-  public string Browser { get; set; }
+  // public string Browser { get; set; }
 
-  public string Os { get; set; }
+  // public string Os { get; set; }
 
   public Guid? AccountId { get; set; }
 

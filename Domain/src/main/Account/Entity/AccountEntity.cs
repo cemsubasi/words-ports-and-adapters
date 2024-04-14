@@ -33,9 +33,4 @@ public class AccountEntity {
   public static AccountEntity Create(Guid id, string name, string email, string phone, string password, string passwordSalt, Guid? createdBy = null) {
     return new AccountEntity(id, name, email, phone, password, passwordSalt, createdBy);
   }
-
-  public AccountEntity AddPost(PostEntity post) {
-    this.Posts.Add(post);
-    return this;
-  }
 }

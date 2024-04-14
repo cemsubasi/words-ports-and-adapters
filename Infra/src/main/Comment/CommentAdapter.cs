@@ -1,9 +1,7 @@
 using Domain.Comment.Entity;
 using Domain.Comment.Port;
 using Domain.Comment.UseCase;
-using Infra.Comment.Model;
 using Infra.Context;
-using Mapster;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infra.Comment.Adapter;

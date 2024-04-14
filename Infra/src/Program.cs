@@ -8,8 +8,6 @@ using Infra.Context;
 using Infra.Filters;
 using Infra.Health;
 using Infra.Middlewares;
-using Infra.Post;
-using Mapster;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting.Server;
 using Serilog;
@@ -37,8 +35,8 @@ configuration = configurationBuilder.Build();
 
 Log.Information("Environment is {0}", configuration["environment"]);
 
-var config = TypeAdapterConfig.GlobalSettings;
-config.AllowImplicitDestinationInheritance = true;
+// var config = TypeAdapterConfig.GlobalSettings;
+// config.AllowImplicitDestinationInheritance = true;
 
 builder.Services.AddControllers(options => {
   options.Filters.Add<HttpResponseExceptionFilter>();

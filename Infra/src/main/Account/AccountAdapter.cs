@@ -7,8 +7,6 @@ using Domain.Common;
 using Infra.Configurations;
 using Infra.Context;
 
-using Mapster;
-
 using Microsoft.EntityFrameworkCore;
 
 namespace Infra.Account;

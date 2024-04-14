@@ -13,16 +13,18 @@ namespace Infra.Context;
 
 public class MainDbContext : DbContext {
   private readonly string connectionString;
-  private readonly ILogger<MainDbContext> logger;
   public MainDbContext() {
   }
 
-  public MainDbContext(ILogger<MainDbContext> logger, IConfiguration configuration, IOptions<DBOptions> options) : base() {
+  public MainDbContext(IOptions<DBOptions> options) : base() {
     this.connectionString = options.Value.MainDb;
     /* Console.WriteLine("Connection string is {0}", this.connectionString); */
 
     /* Console.WriteLine(configuration["ConnectionStrings:MainDb"]); */
-    this.logger = logger;
+  }
+
+  public MainDbContext(string connectionString) : base() {
+    this.connectionString = connectionString;
   }
 
   protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) {
