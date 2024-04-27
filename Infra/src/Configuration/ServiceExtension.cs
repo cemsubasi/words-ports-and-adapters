@@ -3,7 +3,6 @@ using Domain.Account;
 using Domain.Account.Port;
 using Domain.Category.Port;
 using Domain.Comment;
-using Domain.Comment.Port;
 using Domain.File;
 using Domain.File.Port;
 using Domain.Post;
@@ -12,7 +11,6 @@ using Domain.SuperAccount;
 using Domain.SuperAccount.Port;
 using Infra.Account;
 using Infra.Category.Adapter;
-using Infra.Comment.Adapter;
 using Infra.File.Adapter;
 using Infra.Post.Adapter;
 using Microsoft.AspNetCore.Authentication;
@@ -34,7 +32,6 @@ public static class ServiceExtension {
     services.Add(new ServiceDescriptor(typeof(AccountPort), typeof(AccountAdapter), lifetime));
     services.Add(new ServiceDescriptor(typeof(SuperAccountPort), typeof(SuperAccountAdapter), lifetime));
     services.Add(new ServiceDescriptor(typeof(PostPort), typeof(PostAdapter), lifetime));
-    services.Add(new ServiceDescriptor(typeof(CommentPort), typeof(CommentAdapter), lifetime));
     services.Add(new ServiceDescriptor(typeof(CategoryPort), typeof(CategoryAdapter), lifetime));
     services.Add(new ServiceDescriptor(typeof(FilePort), typeof(FileAdapter), lifetime));
     services.Add(new ServiceDescriptor(typeof(IdentityPort), typeof(IdentityAdapter), lifetime));
@@ -70,12 +67,7 @@ public static class ServiceExtension {
   public static IServiceCollection AddPostUseCaseHandlers(this IServiceCollection services, ServiceLifetime lifetime) {
     services.Add(new ServiceDescriptor(typeof(CreatePostUseCaseHandler), typeof(CreatePostUseCaseHandler), lifetime));
     services.Add(new ServiceDescriptor(typeof(RetrievePostUseCaseHandler), typeof(RetrievePostUseCaseHandler), lifetime));
-
-    return services;
-  }
-
-  public static IServiceCollection AddCommentUseCaseHandlers(this IServiceCollection services, ServiceLifetime lifetime) {
-    services.Add(new ServiceDescriptor(typeof(CreateCommentUseCaseHandler), typeof(CreateCommentUseCaseHandler), lifetime));
+    services.Add(new ServiceDescriptor(typeof(AddCommentUseCaseHandler), typeof(AddCommentUseCaseHandler), lifetime));
     services.Add(new ServiceDescriptor(typeof(RetrieveCommentUseCaseHandler), typeof(RetrieveCommentUseCaseHandler), lifetime));
 
     return services;

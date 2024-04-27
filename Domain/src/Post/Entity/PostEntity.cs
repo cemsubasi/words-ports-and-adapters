@@ -52,4 +52,14 @@ public sealed class PostEntity {
         body,
         isFeatured);
   }
+
+  public CommentEntity AddComment(CommentEntity comment) {
+    if (string.IsNullOrWhiteSpace(comment.Comment)) {
+      throw new ArgumentException("Comment cannot be empty.");
+    }
+
+    this.Comments.Add(comment);
+
+    return comment;
+  }
 }

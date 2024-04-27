@@ -32,8 +32,8 @@ public class IdentityMiddleware(RequestDelegate next) {
     var inetAddress = context.Connection.RemoteIpAddress?.ToString();
     var userAgent = context.Request.Headers.UserAgent.ToString();
     var language = context.Request.Headers.AcceptLanguage.ToString();
-    var accountId = Guid.TryParse(session.Id.ToString(), out var id) ? id : (Guid?)null;
-    var identityCreate = IdentityCreate.Build(inetAddress, userAgent, language, accountId);
+    var accountId = Guid.TryParse(session.Id.ToString(), out var id) && id != Guid.Empty ? id : (Guid?)null;
+    var identityCreate = IdentityCreate.Build(inetAddress, userAgent, language, null);
     _ = await identityPort.CreateAsync(identityCreate, CancellationToken.None);
 
     await this.next.Invoke(context);

@@ -56,7 +56,6 @@ builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls = true
 builder.Services.AddUtils(ServiceLifetime.Singleton);
 builder.Services.AddServices(ServiceLifetime.Scoped);
 builder.Services.AddAccountUseCaseHandlers(ServiceLifetime.Scoped);
-builder.Services.AddCommentUseCaseHandlers(ServiceLifetime.Scoped);
 builder.Services.AddSuperAccountUseCaseHandlers(ServiceLifetime.Scoped);
 builder.Services.AddPostUseCaseHandlers(ServiceLifetime.Scoped);
 builder.Services.AddFileUseCaseHandlers(ServiceLifetime.Scoped);
@@ -89,7 +88,7 @@ app.UseRateLimiter();
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseMiddleware<SessionMiddleware>();
-app.UseMiddleware<IdentityMiddleware>();
+// app.UseMiddleware<IdentityMiddleware>();
 
 app.UseHttpsRedirection();
 app.UseCors(x => x.WithOrigins(app.Environment.IsDevelopment() ? "localhost:3000" : "localx.host").AllowCredentials());
