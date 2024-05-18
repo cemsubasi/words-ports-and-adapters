@@ -2,17 +2,12 @@
 using Domain.Account;
 using Domain.Account.Port;
 using Domain.Category.Port;
-using Domain.Comment;
 using Domain.File;
 using Domain.File.Port;
-using Domain.Post;
-using Domain.Post.Port;
 using Domain.SuperAccount;
 using Domain.SuperAccount.Port;
 using Infra.Account;
-using Infra.Category.Adapter;
 using Infra.File.Adapter;
-using Infra.Post.Adapter;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.RateLimiting;
@@ -23,6 +18,11 @@ using Infra.Health;
 
 using Domain.Identity.Port;
 using Infra.Identity.Adapter;
+using Domain.Question.Port;
+using Infra.Question.Adapter;
+using Domain.Question;
+using Domain.Category;
+using Infra.Category.Adapter;
 
 namespace Infra.Configurations;
 
@@ -31,7 +31,7 @@ public static class ServiceExtension {
     services.Add(new ServiceDescriptor(typeof(IUserSession), typeof(UserSession), lifetime));
     services.Add(new ServiceDescriptor(typeof(AccountPort), typeof(AccountAdapter), lifetime));
     services.Add(new ServiceDescriptor(typeof(SuperAccountPort), typeof(SuperAccountAdapter), lifetime));
-    services.Add(new ServiceDescriptor(typeof(PostPort), typeof(PostAdapter), lifetime));
+    services.Add(new ServiceDescriptor(typeof(QuestionPort), typeof(QuestionAdapter), lifetime));
     services.Add(new ServiceDescriptor(typeof(CategoryPort), typeof(CategoryAdapter), lifetime));
     services.Add(new ServiceDescriptor(typeof(FilePort), typeof(FileAdapter), lifetime));
     services.Add(new ServiceDescriptor(typeof(IdentityPort), typeof(IdentityAdapter), lifetime));
@@ -64,11 +64,18 @@ public static class ServiceExtension {
     return services;
   }
 
-  public static IServiceCollection AddPostUseCaseHandlers(this IServiceCollection services, ServiceLifetime lifetime) {
-    services.Add(new ServiceDescriptor(typeof(CreatePostUseCaseHandler), typeof(CreatePostUseCaseHandler), lifetime));
-    services.Add(new ServiceDescriptor(typeof(RetrievePostUseCaseHandler), typeof(RetrievePostUseCaseHandler), lifetime));
-    services.Add(new ServiceDescriptor(typeof(AddCommentUseCaseHandler), typeof(AddCommentUseCaseHandler), lifetime));
-    services.Add(new ServiceDescriptor(typeof(RetrieveCommentUseCaseHandler), typeof(RetrieveCommentUseCaseHandler), lifetime));
+  public static IServiceCollection AddQuestionUseCaseHandlers(this IServiceCollection services, ServiceLifetime lifetime) {
+    services.Add(new ServiceDescriptor(typeof(QuestionCreateUseCaseHandler), typeof(QuestionCreateUseCaseHandler), lifetime));
+    services.Add(new ServiceDescriptor(typeof(QuestionDeleteUseCaseHandler), typeof(QuestionDeleteUseCaseHandler), lifetime));
+    services.Add(new ServiceDescriptor(typeof(QuestionRetrieveUseCaseHandler), typeof(QuestionRetrieveUseCaseHandler), lifetime));
+
+    return services;
+  }
+
+  public static IServiceCollection AddCategoryUseCaseHandlers(this IServiceCollection services, ServiceLifetime lifetime) {
+    services.Add(new ServiceDescriptor(typeof(CategoryCreateUseCaseHandler), typeof(CategoryCreateUseCaseHandler), lifetime));
+    services.Add(new ServiceDescriptor(typeof(CategoryDeleteUseCaseHandler), typeof(CategoryDeleteUseCaseHandler), lifetime));
+    services.Add(new ServiceDescriptor(typeof(CategoryRetrieveUseCaseHandler), typeof(CategoryRetrieveUseCaseHandler), lifetime));
 
     return services;
   }

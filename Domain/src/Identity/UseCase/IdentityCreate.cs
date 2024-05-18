@@ -1,6 +1,4 @@
-﻿using System.Security.Cryptography;
-
-namespace Domain.Identity.UseCase;
+﻿namespace Domain.Identity.UseCase;
 
 public class IdentityCreate {
   private const string letters = "abcdefghijklmnopqrstuvxwyzABCDEFGHIJKLMNOPQRSTUVXWYZ0123456789";

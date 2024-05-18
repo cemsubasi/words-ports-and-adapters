@@ -1,5 +1,3 @@
-using Domain.Account.Entity;
-
 namespace Infra;
 
 public interface IUserSession {

@@ -1,10 +1,4 @@
-﻿using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text.Json;
-using Domain.Account.Entity;
-
-using Infra.Context;
-using Serilog;
+﻿using System.Security.Claims;
 
 namespace Infra.Middlewares;
 

@@ -1,12 +1,10 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace Infra.src.main.Context.Migrations
-{
-    /// <inheritdoc />
-    public partial class AlterAccountEntityDeletedAt : Migration
+namespace Infra.src.main.Context.Migrations {
+  /// <inheritdoc />
+  public partial class AlterAccountEntityDeletedAt : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

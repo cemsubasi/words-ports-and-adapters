@@ -1,18 +1,22 @@
-﻿using Domain.Post.Entity;
+using Domain.Account.Entity;
+using Domain.Question.Entity;
 
 namespace Domain.Category.Entity;
 
-public sealed class CategoryEntity {
-  public Guid Id { get; set; }
-  public List<PostEntity> Posts { get; set; } = [];
-  public string Category { get; set; }
+public class CategoryEntity {
+  public Guid Id { get; private set; }
+  public string Name { get; private set; }
+  public Guid AccountId { get; private set; }
+  public AccountEntity Account { get; private set; }
+  public List<QuestionEntity> Questions { get; private set; } = [];
 
-  private CategoryEntity(Guid id, string category) {
+  private CategoryEntity(Guid id, string name, Guid accountId) {
     this.Id = id;
-    this.Category = category;
+    this.Name = name;
+    this.AccountId = accountId;
   }
 
-  public static CategoryEntity Create(Guid id, string category) {
-    return new CategoryEntity(id, category);
+  public static CategoryEntity Create(string name, Guid accountId) {
+    return new CategoryEntity(Guid.NewGuid(), name, accountId);
   }
 }

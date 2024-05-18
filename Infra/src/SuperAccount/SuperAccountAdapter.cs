@@ -1,5 +1,4 @@
 ﻿using System.Security.Claims;
-using System.Security.Cryptography;
 using Domain.Common;
 using Domain.SuperAccount.Entity;
 using Domain.SuperAccount.Port;

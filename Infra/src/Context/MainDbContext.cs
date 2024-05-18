@@ -1,9 +1,9 @@
 ﻿using Domain.Account.Entity;
+using Domain.Answer.Entity;
 using Domain.Category.Entity;
-using Domain.Comment.Entity;
 using Domain.File.Entity;
 using Domain.Identity.Entity;
-using Domain.Post.Entity;
+using Domain.Question.Entity;
 using Domain.SuperAccount.Entity;
 using Infra.Configurations;
 using Microsoft.EntityFrameworkCore;
@@ -64,42 +64,17 @@ public class MainDbContext : DbContext {
     _ = builder.Entity<IdentityEntity>()
         .Property(x => x.Id).ValueGeneratedOnAdd();
 
-    _ = builder.Entity<CommentEntity>()
-      .HasOne(x => x.Creator)
-      .WithMany()
-      .HasForeignKey(x => x.CreatedBy);
-
     _ = builder.Entity<AccountEntity>()
       .HasOne(x => x.Creator)
       .WithMany()
       .HasForeignKey(x => x.CreatedBy);
-
-    _ = builder.Entity<PostEntity>()
-      .HasOne(x => x.Category)
-      .WithMany(x => x.Posts)
-      .HasForeignKey(x => x.CategoryId);
-
-    _ = builder.Entity<PostEntity>()
-      .HasOne(x => x.Account)
-      .WithMany(x => x.Posts)
-      .HasForeignKey(x => x.AccountId);
-
-    _ = builder.Entity<PostEntity>()
-      .HasMany(x => x.Comments)
-      .WithOne(x => x.Post)
-      .HasForeignKey(x => x.PostId);
-
-    _ = builder.Entity<CommentEntity>()
-      .HasOne(x => x.ParentComment)
-      .WithMany(x => x.SubComments)
-      .HasForeignKey(x => x.ParentCommentId);
   }
 
   public virtual DbSet<AccountEntity> Accounts { get; set; }
   public virtual DbSet<SuperAccountEntity> SuperAccounts { get; set; }
-  public virtual DbSet<PostEntity> Posts { get; set; }
-  public virtual DbSet<CommentEntity> Comments { get; set; }
-  public virtual DbSet<CategoryEntity> Categories { get; set; }
+  public DbSet<CategoryEntity> Categories { get; set; }
+  public DbSet<QuestionEntity> Questions { get; set; }
+  public DbSet<AnswerEntity> Answers { get; set; }
   public virtual DbSet<FileEntity> Files { get; set; }
   public virtual DbSet<IdentityEntity> Identities { get; set; }
 }

@@ -4,7 +4,6 @@ using Domain.Common;
 
 using Infra.Account;
 using Infra.Controllers.Account;
-using Infra.Controllers.Common;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

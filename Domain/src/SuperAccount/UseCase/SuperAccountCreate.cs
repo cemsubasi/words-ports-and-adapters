@@ -1,5 +1,4 @@
-﻿using System.Security.Cryptography;
-using Domain.Account.UseCase;
+﻿using Domain.Account.UseCase;
 
 namespace Domain.SuperAccount.UseCase;
 

@@ -1,5 +1,4 @@
 using Domain.Account.UseCase;
-using FluentValidation;
 using Infra.Account.Validator;
 
 namespace Infra.Controllers.Account;

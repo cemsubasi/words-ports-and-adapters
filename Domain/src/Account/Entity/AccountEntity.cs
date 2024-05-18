@@ -1,5 +1,5 @@
-﻿using Domain.File.Entity;
-using Domain.Post.Entity;
+﻿using Domain.Category.Entity;
+using Domain.File.Entity;
 
 namespace Domain.Account.Entity;
 
@@ -10,12 +10,12 @@ public class AccountEntity {
   public string Phone { get; private set; }
   public string Password { get; private set; }
   public string PasswordSalt { get; private set; }
-  public List<PostEntity> Posts { get; private set; } = [];
   public DateTime CreatedAt { get; private set; }
   public DateTime UpdatedAt { get; private set; }
   public DateTime? DeletedAt { get; private set; }
   public Guid? CreatedBy { get; private set; }
   public AccountEntity Creator { get; private set; }
+  public virtual List<CategoryEntity> Categories { get; set; } = [];
   public List<FileEntity> Files { get; private set; } = [];
 
   protected AccountEntity(Guid id, string name, string email, string phone, string password, string passwordSalt, Guid? createdBy = null) {

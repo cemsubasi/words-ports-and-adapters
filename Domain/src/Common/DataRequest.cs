@@ -1,6 +1,4 @@
-﻿using System.Text.Json.Serialization;
-
-namespace Domain.Common;
+﻿namespace Domain.Common;
 
 public class DataRequest(int page, int size) {
   private const int DEFAULT_SIZE = 10;

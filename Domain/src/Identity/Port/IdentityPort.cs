@@ -1,5 +1,4 @@
-﻿using Domain.Common;
-using Domain.Identity.Entity;
+﻿using Domain.Identity.Entity;
 using Domain.Identity.UseCase;
 
 namespace Domain.Identity.Port;

@@ -1,13 +1,11 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Metadata;
+﻿using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace Infra.src.main.Context.Migrations
-{
-    /// <inheritdoc />
-    public partial class AlterIdentityEntityDevice : Migration
+namespace Infra.src.main.Context.Migrations {
+  /// <inheritdoc />
+  public partial class AlterIdentityEntityDevice : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

@@ -1,4 +1,5 @@
 using Domain.Category.Port;
+using Infra.Category;
 using Infra.Category.Adapter;
 using Infra.Configurations;
 using Microsoft.Extensions.Configuration;
@@ -8,7 +9,7 @@ namespace Infra.Test.Integrations;
 
 public class Integration {
     private static readonly Lazy<ServiceProvider> _provider = new Lazy<ServiceProvider>(BuildServiceProvider);
-    private static IConfigurationRoot _configuration;
+    private static IConfigurationRoot _configuration = default!;
 
     public static ServiceProvider Provider => _provider.Value;
 

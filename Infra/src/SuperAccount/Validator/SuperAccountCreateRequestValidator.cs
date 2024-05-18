@@ -5,16 +5,16 @@ namespace Infra.SuperAccount.Validator;
 
 public class SuperAccountCreateRequestValidator : AbstractValidator<SuperAccountCreateRequest> {
   public SuperAccountCreateRequestValidator() {
-    RuleFor(x => x.Email)
+    this.RuleFor(x => x.Email)
       .EmailAddress();
 
-    RuleFor(x => x.Phone)
+    this.RuleFor(x => x.Phone)
       .NotNull()
       .NotEmpty()
       .Length(11)
       .WithMessage("Phone must be valid.");
 
-    RuleFor(x => x.Password)
+    this.RuleFor(x => x.Password)
       .NotNull()
       .NotEmpty()
       .MinimumLength(6)

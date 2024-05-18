@@ -1,4 +1,3 @@
-using System.Security.Cryptography;
 using FluentValidation;
 using Infra.Controllers.Account;
 

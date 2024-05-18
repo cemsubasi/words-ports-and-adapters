@@ -1,6 +1,4 @@
-﻿using Domain.Account.UseCase;
-using Domain.SuperAccount.UseCase;
-using FluentValidation;
+﻿using Domain.SuperAccount.UseCase;
 using Infra.SuperAccount.Validator;
 
 namespace Infra.Controllers.SuperAccount;

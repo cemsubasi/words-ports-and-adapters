@@ -2,7 +2,6 @@
 using Domain.SuperAccount;
 using Domain.SuperAccount.Entity;
 using Domain.SuperAccount.UseCase;
-using Infra.Controllers.Common;
 using Infra.Controllers.SuperAccount;
 using Infra.SuperAccount;
 using Microsoft.AspNetCore.Authorization;

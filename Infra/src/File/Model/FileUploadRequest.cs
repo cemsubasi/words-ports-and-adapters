@@ -1,4 +1,3 @@
-using System.Text.Json.Serialization;
 using Domain.File.UseCase;
 
 namespace Infra.File.Model;
