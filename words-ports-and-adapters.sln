@@ -12,6 +12,7 @@ EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		Development|Any CPU = Development|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
@@ -24,6 +25,8 @@ Global
 		{79E43C34-968A-4CA1-80F4-3FFBB5E88710}.Release|Any CPU.Build.0 = Release|Any CPU
 		{46EC1B6E-87DC-4F3F-8B17-6015819417B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{46EC1B6E-87DC-4F3F-8B17-6015819417B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{46EC1B6E-87DC-4F3F-8B17-6015819417B2}.Development|Any CPU.ActiveCfg = Development|Any CPU
+		{46EC1B6E-87DC-4F3F-8B17-6015819417B2}.Development|Any CPU.Build.0 = Development|Any CPU
 		{46EC1B6E-87DC-4F3F-8B17-6015819417B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{46EC1B6E-87DC-4F3F-8B17-6015819417B2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection

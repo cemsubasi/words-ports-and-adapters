@@ -23,10 +23,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 var configurationBuilder = new ConfigurationBuilder()
   .AddCommandLine(args)
-  .AddJsonFile("config.json");
+  .AddJsonFile("appsettings.json");
 
 if (!string.IsNullOrEmpty(configuration["environment"])) {
-  configurationBuilder.AddJsonFile($"config.{configuration["environment"]}.json");
+  configurationBuilder.AddJsonFile($"appsettings.{configuration["environment"]}.json");
 }
 
 configuration = configurationBuilder.Build();

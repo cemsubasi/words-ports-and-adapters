@@ -1,17 +1,21 @@
 # Stage 1: Build the application
-FROM mcr.microsoft.com/dotnet/sdk:8.0.203-alpine3.18-amd64 AS build
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /app
 
 # Copy csproj and restore as distinct layers
 COPY . ./
-# COPY Infra/*.csproj ./
-RUN dotnet restore
+
+ENV DOTNET_NUGET_SIGNATURE_VERIFICATION=false
+ENV ASPNETCORE_ENVIRONMENT=Development
+
+RUN dotnet restore 
 
 # Copy everything else and build
-RUN dotnet publish -c Release -r linux-x64 --self-contained -o out
+RUN dotnet publish -c Release -r osx-arm64 -o /app/publish
 
 # Stage 2: Create runtime image
-FROM mcr.microsoft.com/dotnet/aspnet:8.0.3-alpine3.18-amd64 AS runtime
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
 WORKDIR /app
-COPY --from=build /app/out .
+COPY --from=build /app/publish .
+ENV ASPNETCORE_ENVIRONMENT=Development
 ENTRYPOINT ["dotnet", "Infra.dll"]
