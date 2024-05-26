@@ -91,8 +91,8 @@ app.UseMiddleware<SessionMiddleware>();
 
 app.UseHttpsRedirection();
 app.UseCors(x => {
-  // x.WithOrigins("https://words.localx.host").AllowCredentials();
-  x.WithOrigins("localhost:7778").AllowCredentials();
+  x.WithOrigins("https://words.localx.host/").AllowCredentials();
+  // x.WithOrigins("localhost:7778").AllowCredentials();
   // x.WithOrigins(app.Environment.IsDevelopment() ? "localhost:3000" : "words.localx.host").AllowCredentials();
 });
 
