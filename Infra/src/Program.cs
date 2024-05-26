@@ -89,13 +89,12 @@ app.UseAuthorization();
 app.UseMiddleware<SessionMiddleware>();
 // app.UseMiddleware<IdentityMiddleware>();
 
-app.UseHttpsRedirection();
-app.UseCors(x => {
-  x.WithOrigins("https://words.localx.host/").AllowCredentials();
-  // x.WithOrigins("localhost:7778").AllowCredentials();
-  // x.WithOrigins(app.Environment.IsDevelopment() ? "localhost:3000" : "words.localx.host").AllowCredentials();
-});
+app.UseCors(x => x.WithOrigins("https://words.localx.host")
+    .AllowAnyMethod()
+    .AllowAnyHeader()
+    .AllowCredentials());
 
+app.UseHttpsRedirection();
 
 app.MapControllers().RequireRateLimiting("fixed");
 app.MapHealthChecks("/health", new HealthCheckOptions {
