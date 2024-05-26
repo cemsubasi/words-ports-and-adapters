@@ -12,6 +12,7 @@
 
 # env file
 Infra/config.*
+Infra/appsettings*
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
