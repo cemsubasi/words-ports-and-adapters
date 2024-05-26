@@ -90,7 +90,11 @@ app.UseMiddleware<SessionMiddleware>();
 // app.UseMiddleware<IdentityMiddleware>();
 
 app.UseHttpsRedirection();
-app.UseCors(x => x.WithOrigins(app.Environment.IsDevelopment() ? "localhost:3000" : "words.localx.host").AllowCredentials());
+app.UseCors(x => {
+  x.WithOrigins("words.localx.host").AllowCredentials();
+  x.WithOrigins(app.Environment.IsDevelopment() ? "localhost:3000" : "words.localx.host").AllowCredentials();
+});
+
 
 app.MapControllers().RequireRateLimiting("fixed");
 app.MapHealthChecks("/health", new HealthCheckOptions {
