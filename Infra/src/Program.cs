@@ -58,6 +58,7 @@ builder.Services.AddSuperAccountUseCaseHandlers(ServiceLifetime.Scoped);
 builder.Services.AddCategoryUseCaseHandlers(ServiceLifetime.Scoped);
 builder.Services.AddQuestionUseCaseHandlers(ServiceLifetime.Scoped);
 builder.Services.AddFileUseCaseHandlers(ServiceLifetime.Scoped);
+builder.Services.AddValidations(ServiceLifetime.Scoped);
 builder.Services.AddRateLimiter();
 builder.Services.AddHealthCheck(ServiceLifetime.Singleton);
 builder.Services.AddSwagger();

@@ -17,6 +17,15 @@ public class QuestionEntity {
   }
 
   public static QuestionEntity Create(Guid categoryId, string value) {
-    return new QuestionEntity(Guid.NewGuid(), categoryId, value);
+    var questionId = Guid.NewGuid();
+    return new QuestionEntity(questionId, categoryId, value);
+  }
+
+  public void AddAnswer(string value) {
+    this.Answers.Add(AnswerEntity.Create(this.Id, value));
+  }
+
+  public void AddAnswer(string[] value) {
+    this.Answers.AddRange(value.Select(x => AnswerEntity.Create(this.Id, x)));
   }
 }

@@ -9,6 +9,6 @@ public class QuestionCreateUseCaseHandler {
   public QuestionCreateUseCaseHandler(QuestionPort questionPort) => this.questionPort = questionPort;
 
   public async Task Handle(QuestionCreate useCase, CancellationToken cancellationToken) {
-    await questionPort.CreateAsync(useCase, cancellationToken);
+    await this.questionPort.CreateAsync(useCase, cancellationToken);
   }
 }

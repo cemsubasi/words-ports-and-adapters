@@ -23,6 +23,11 @@ using Infra.Question.Adapter;
 using Domain.Question;
 using Domain.Category;
 using Infra.Category.Adapter;
+using Infra.Controllers.Account;
+using FluentValidation;
+using Infra.Account.Validator;
+using Infra.Question;
+using Infra.Question.Validator;
 
 namespace Infra.Configurations;
 
@@ -40,9 +45,8 @@ public static class ServiceExtension {
   }
 
   public static IServiceCollection AddValidations(this IServiceCollection services, ServiceLifetime lifetime) {
-    /* services.Add(new ServiceDescriptor(typeof(IValidator<AccountCreateRequest>), typeof(AccountCreateRequestValidator), lifetime)); */
-    /* services.Add(new ServiceDescriptor(typeof(IValidator<WordModel>), typeof(WordValidator), lifetime)); */
-    /* services.Add(new ServiceDescriptor(typeof(IValidator<AnswerModel>), typeof(AnswerValidator), lifetime)); */
+    services.Add(new ServiceDescriptor(typeof(IValidator<AccountCreateRequest>), typeof(AccountCreateRequestValidator), lifetime));
+    services.Add(new ServiceDescriptor(typeof(IValidator<QuestionCreateRequest>), typeof(QuestionCreateRequestValidator), lifetime));
     /* services.Add(new ServiceDescriptor(typeof(IValidator<CategoryModel>), typeof(CategoryValidator), lifetime)); */
 
     return services;

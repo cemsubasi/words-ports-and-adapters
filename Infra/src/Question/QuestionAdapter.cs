@@ -23,8 +23,11 @@ public class QuestionAdapter : QuestionPort {
     }
 
     var questionEntity = QuestionEntity.Create(useCase.CategoryId, useCase.Value);
-    _ = await this.context.Questions.AddAsync(questionEntity, cancellationToken);
+    questionEntity.AddAnswer(useCase.Answers);
+
     category.Questions.Add(questionEntity);
+
+    _ = await this.context.Questions.AddAsync(questionEntity, cancellationToken);
     this.context.Categories.Update(category);
     var result = await this.context.SaveChangesAsync(cancellationToken);
     if (result.Equals(0)) {
