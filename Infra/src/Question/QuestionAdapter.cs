@@ -1,3 +1,4 @@
+using System.Security.Cryptography;
 using Domain.Question.Entity;
 using Domain.Question.Port;
 using Domain.Question.UseCase;
@@ -22,8 +23,9 @@ public class QuestionAdapter : QuestionPort {
     }
 
     var questionEntity = QuestionEntity.Create(useCase.CategoryId, useCase.Value);
-
+    _ = await this.context.Questions.AddAsync(questionEntity, cancellationToken);
     category.Questions.Add(questionEntity);
+    this.context.Categories.Update(category);
     var result = await this.context.SaveChangesAsync(cancellationToken);
     if (result.Equals(0)) {
       throw new Exception("An exception occoured while saving question entity");

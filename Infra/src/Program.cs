@@ -89,7 +89,7 @@ app.UseAuthorization();
 app.UseMiddleware<SessionMiddleware>();
 // app.UseMiddleware<IdentityMiddleware>();
 
-app.UseCors(x => x.WithOrigins("https://words.localx.host")
+app.UseCors(x => x.WithOrigins("https://words.localx.host", "http://localhost:3000")
     .AllowAnyMethod()
     .AllowAnyHeader()
     .AllowCredentials());
